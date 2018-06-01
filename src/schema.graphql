@@ -1,0 +1,57 @@
+enum ETHEREUM_NETWORK {
+  MAINNET
+  ROPSTEN
+  KOVAN
+  RINKEBY
+}
+
+type Query {
+  ethereumGasPrice(network: ETHEREUM_NETWORK): String!
+
+  ethereumBlock(hash: String, number: Int, network: ETHEREUM_NETWORK): EthereumBlock
+  ethereumTransaction(hash: String!, network: ETHEREUM_NETWORK): EthereumTransaction
+  ethereumAddress(hash: String!, network: ETHEREUM_NETWORK): EthereumAddress
+}
+
+type EthereumAddress {
+  network: ETHEREUM_NETWORK!
+  hash: String!
+  balance: String!
+  transactionCount: Int!
+}
+
+type EthereumTransaction {
+  network: ETHEREUM_NETWORK!
+  hash: String!
+  nonce: Int!
+  block: EthereumBlock
+  transactionIndex: Int!
+  from: EthereumAddress
+  to: EthereumAddress
+  value: String!
+  gas: Int!
+  gasPrice: String!
+  input: String!
+}
+
+type EthereumBlock {
+  network: ETHEREUM_NETWORK!
+  hash: String!
+  number: Int!
+  parent: EthereumBlock
+  nonce: String!
+  sha3Uncles: String!
+  logsBloom: String!
+  transactionsRoot: String!
+  stateRoot: String!
+  miner: EthereumAddress!
+  difficulty: String!
+  totalDifficulty: String!
+  size: Int!
+  extraData: String!
+  gasLimit: Int!
+  gasUsed: Int!
+  timestamp: Int!
+  transactions: [EthereumTransaction!]!
+  uncles: [EthereumBlock!]!
+}

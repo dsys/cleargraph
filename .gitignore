@@ -1,0 +1,34 @@
+# mono
+*.log
+etc/openvpn
+pkg
+src/dash/protobufs/*.proto
+src/reports/**/report.html
+src/reports/**/report.pdf
+src/vendor
+usr/local
+tmp
+.vimlocal
+
+# macOS
+.DS_Store
+
+# Python
+.ipynb_checkpoints
+*.ipynb
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.venv/
+
+# Java
+*.jar
+
+# Go
+bin/golint
+bin/protoc-gen-go
+bazel-*
+
+# JavaScript
+node_modules
