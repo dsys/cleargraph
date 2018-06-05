@@ -1,10 +1,11 @@
-const { GraphQLServer } = require('graphql-yoga');
 const resolvers = require('./resolvers');
+const { GraphQLServer } = require('graphql-yoga');
+const { createContext } = require('./context')
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
-  context: req => ({ ...req })
+  context: createContext
 });
 
 server.start(info =>

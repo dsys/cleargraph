@@ -7,10 +7,18 @@ enum ETHEREUM_NETWORK {
 
 type Query {
   ethereumGasPrice(network: ETHEREUM_NETWORK): String!
+  ethereumBlockNumber(network: ETHEREUM_NETWORK): Int!
 
   ethereumBlock(hash: String, number: Int, network: ETHEREUM_NETWORK): EthereumBlock
   ethereumTransaction(hash: String!, network: ETHEREUM_NETWORK): EthereumTransaction
   ethereumAddress(hash: String!, network: ETHEREUM_NETWORK): EthereumAddress
+}
+
+type Mutation {
+  sendRawTransaction(
+    data: String!
+    network: ETHEREUM_NETWORK
+  ): EthereumTransaction
 }
 
 type EthereumAddress {
@@ -53,5 +61,6 @@ type EthereumBlock {
   gasUsed: Int!
   timestamp: Int!
   transactions: [EthereumTransaction!]!
+  transactionCount: Int!
   uncles: [EthereumBlock!]!
 }

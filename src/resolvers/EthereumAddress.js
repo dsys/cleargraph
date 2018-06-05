@@ -1,11 +1,11 @@
 const { web3 } = require('../web3');
 
 const EthereumAddress = {
-  balance: ({ network = 'MAINNET', hash }, args, ctx, info) => {
-    return web3[network].eth.getBalance(hash);
+  balance: ({ hash, network = 'MAINNET' }, args, ctx) => {
+    return ctx.loaders.web3.balance.load({ hash, network })
   },
-  transactionCount: async ({ network = 'MAINNET', hash }, args, ctx, info) => {
-    return web3[network].eth.getTransactionCount(hash);
+  transactionCount: ({ hash, network = 'MAINNET' }, args, ctx) => {
+    return ctx.loaders.web3.transactionCount.load({ hash, network })
   }
 };
 
