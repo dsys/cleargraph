@@ -32,3 +32,6 @@ bazel-*
 
 # JavaScript
 node_modules
+
+# TypeScript
+dist

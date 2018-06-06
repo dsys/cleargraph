@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "dist",
+    "lib": [
+      "esnext",
+      "dom"
+    ]
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./node_modules/web3-typescript-typings/index.d.ts"
+  ]
+}

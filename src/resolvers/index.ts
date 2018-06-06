@@ -1,0 +1,5 @@
+export { EthereumAddress } from "./EthereumAddress";
+export { EthereumBlock } from "./EthereumBlock";
+export { EthereumTransaction } from "./EthereumTransaction";
+export { Query } from "./Query";
+export { Mutation } from "./Mutation";
