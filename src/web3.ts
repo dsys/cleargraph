@@ -6,11 +6,12 @@ export enum EthereumNetwork { MAINNET, ROPSTEN, KOVAN, RINKEBY }
 export const web3: { [EthereumNetwork: string]: any } = {};
 for (const network in EthereumNetwork) {
   if (!isNaN(Number(network))) { continue; }
-  web3[network] = new Web3(
-    new Web3.providers.HttpProvider(
-      `https://${network}.infura.io/${process.env.INFURA_API_KEY}`,
-    ),
-  );
+
+  let providerURL = process.env[`WEB3_${network}`];
+  if (!providerURL) { providerURL = `https://${network}.infura.io/${process.env.INFURA_API_KEY}`; }
+  const provider = new Web3.providers.HttpProvider(providerURL);
+
+  web3[network] = new Web3(provider);
 }
 
 export interface Web3HashRequest {
