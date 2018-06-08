@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - latest
+  - node
 script:
   - yarn run check
   - yarn run lint
