@@ -9,7 +9,8 @@
     "playground": "graphql playground",
     "dev": "npm-run-all --parallel start playground",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "precommit": "yarn run lint",
+    "check": "tsc --noEmit",
+    "precommit": "yarn run check && yarn run lint",
     "docker:build": "docker build -t dsys/eth-explorer:latest .",
     "docker:run": "docker run -it dsys/eth-explorer:latest"
   },
