@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { web3 } from "../web3";
+import { web3 } from "../web3/client";
 
 export const Query = {
   ethereumGasPrice(parent, { network = "MAINNET" }) {
@@ -10,15 +10,15 @@ export const Query = {
     return web3[network].eth.getBlockNumber();
   },
 
-  ethereumAddress(parent, { hash, network = "MAINNET" }) {
-    return { hash, network };
+  ethereumAddress(parent, { hash, network = "MAINNET" }, ctx: Context) {
+    return ctx.loaders.web3.address.load({ hash, network });
   },
 
-  ethereumBlock(parent, args, ctx: Context) {
-    return ctx.loaders.web3.block.load(args);
+  ethereumBlock(parent, { hash, network = "MAINNET" }, ctx: Context) {
+    return ctx.loaders.web3.block.load({ hash, network });
   },
 
-  ethereumTransaction(parent, args, ctx: Context) {
-    return ctx.loaders.web3.transaction.load(args);
+  ethereumTransaction(parent, { hash, network = "MAINNET" }, ctx: Context) {
+    return ctx.loaders.web3.transaction.load({ hash, network });
   },
 };
