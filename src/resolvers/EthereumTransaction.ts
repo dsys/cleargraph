@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { Web3Transaction } from "../web3";
+import { Web3Transaction } from "../web3/client";
 
 export const EthereumTransaction = {
   block: (parent: Web3Transaction, args, ctx: Context, info) => {
@@ -9,9 +9,15 @@ export const EthereumTransaction = {
     });
   },
   from: (parent: Web3Transaction, args, ctx: Context, info) => {
-    return { network: parent.network, hash: parent.from };
+    return ctx.loaders.web3.address.load({
+      hash: parent.from,
+      network: parent.network,
+    });
   },
   to: (parent: Web3Transaction, args, ctx: Context, info) => {
-    return { network: parent.network, hash: parent.to };
+    return ctx.loaders.web3.address.load({
+      hash: parent.to,
+      network: parent.network,
+    });
   },
 };

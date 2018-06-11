@@ -1,4 +1,4 @@
-import { createWeb3Loaders } from "./web3";
+import { createWeb3Loaders } from "./web3/loaders";
 
 export interface Context {
   req: any;

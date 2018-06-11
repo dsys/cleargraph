@@ -1,4 +1,4 @@
-import { web3 } from "../web3";
+import { web3 } from "../web3/client";
 
 export const Mutation = {
   async sendRawTransaction(parent, args, ctx) {

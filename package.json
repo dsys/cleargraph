@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "dataloader": "^1.4.0",
+    "eth-ens-namehash": "^2.0.8",
     "graphql-yoga": "1.14.6",
     "web3": "^1.0.0-beta.34"
   },

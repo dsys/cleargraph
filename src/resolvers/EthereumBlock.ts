@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { Web3Block } from "../web3";
+import { Web3Block } from "../web3/client";
 
 export const EthereumBlock = {
   parent(parent: Web3Block, args, ctx: Context) {
@@ -9,7 +9,10 @@ export const EthereumBlock = {
     });
   },
   miner(parent: Web3Block, args, ctx: Context) {
-    return { hash: parent.miner, network: parent.network };
+    return ctx.loaders.web3.address.load({
+      hash: parent.miner,
+      network: parent.network,
+    });
   },
   transactions(parent: Web3Block, args, ctx: Context) {
     return ctx.loaders.web3.transaction.loadMany(
