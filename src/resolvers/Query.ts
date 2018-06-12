@@ -4,7 +4,7 @@ import { web3 } from "../web3/client";
 export const Query = {
   phoneNumber(parent, { hashedPhoneNumber }, ctx: Context, info) {
     return ctx.db.query.phoneNumber({
-      where: { hashedPhoneNumber: hashedPhoneNumber.toLowerCase() },
+      where: { hashedPhoneNumber: hashedPhoneNumber.toLowerCase() }
     });
   },
 
@@ -26,5 +26,5 @@ export const Query = {
 
   ethereumTransaction(parent, { hash, network = "MAINNET" }, ctx: Context) {
     return ctx.loaders.web3.transaction.load({ hash, network });
-  },
+  }
 };

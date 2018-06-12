@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import {
   format as formatPhoneNumber,
-  parse as parsePhoneNumber,
+  parse as parsePhoneNumber
 } from "libphonenumber-js";
 import * as fetch from "node-fetch";
 import * as qs from "qs";
@@ -26,7 +26,7 @@ export function normalizePhoneNumber(phoneNumber: string): string {
 }
 
 export function generateRandomVerificationCode(
-  length: number = CODE_LENGTH,
+  length: number = CODE_LENGTH
 ): string {
   return Math.round(Math.random() * Math.pow(10, length))
     .toString()
@@ -38,14 +38,14 @@ export function generateTextMessage(verificationCode: string): string {
 }
 
 export async function startPhoneNumberVerification(
-  rawPhoneNumber: string,
+  rawPhoneNumber: string
 ): Promise<void> {
   const phoneNumber = normalizePhoneNumber(rawPhoneNumber);
   const redisKey = `phoneVerificationCodes:${phoneNumber}`;
   const verificationCode = generateRandomVerificationCode();
   await DEFAULT_REDIS_CLIENT.hmsetAsync(redisKey, {
     attemptsLeft: MAX_ATTEMPTS,
-    verificationCode,
+    verificationCode
   });
 
   await DEFAULT_REDIS_CLIENT.expireAsync(redisKey, CODE_TIMEOUT);
@@ -55,14 +55,14 @@ export async function startPhoneNumberVerification(
     body: qs.stringify({
       Body: body,
       From: TWILIO_FROM_NUMBER,
-      To: phoneNumber,
+      To: phoneNumber
     }),
     headers: {
-      "Authorization": TWILIO_AUTHORIZATION,
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: TWILIO_AUTHORIZATION,
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     method: "POST",
-    timeout: REQUEST_TIMEOUT,
+    timeout: REQUEST_TIMEOUT
   });
 
   const resBody = await res.json();
@@ -75,7 +75,7 @@ export async function startPhoneNumberVerification(
 
 export async function checkPhoneNumberVerificationCode(
   rawPhoneNumber: string,
-  verificationCode: string,
+  verificationCode: string
 ): Promise<void> {
   const phoneNumber = normalizePhoneNumber(rawPhoneNumber);
   const redisKey = `phoneVerificationCodes:${phoneNumber}`;

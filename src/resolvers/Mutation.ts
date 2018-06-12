@@ -2,7 +2,7 @@ import { Context } from "../context";
 import {
   checkPhoneNumberVerificationCode,
   generatePhoneNumberHash,
-  startPhoneNumberVerification,
+  startPhoneNumberVerification
 } from "../phone";
 import { web3 } from "../web3/client";
 
@@ -10,7 +10,7 @@ export const Mutation = {
   async startPhoneNumberVerification(
     parent,
     args: { phoneNumber: string },
-    ctx: Context,
+    ctx: Context
   ) {
     await startPhoneNumberVerification(args.phoneNumber);
     return { ok: true };
@@ -23,7 +23,7 @@ export const Mutation = {
       address: string;
     },
     ctx: Context,
-    info,
+    info
   ) {
     // await checkPhoneNumberVerificationCode(args.phoneNumber, args.verificationCode);
 
@@ -32,9 +32,9 @@ export const Mutation = {
       {
         create: { hashedPhoneNumber, address: args.address },
         update: { address: args.address },
-        where: { hashedPhoneNumber },
+        where: { hashedPhoneNumber }
       },
-      info,
+      info
     );
   },
   async deletePhoneNumber(
@@ -43,16 +43,16 @@ export const Mutation = {
       phoneNumber: string;
       verificationCode: string;
     },
-    ctx: Context,
+    ctx: Context
   ) {
     await checkPhoneNumberVerificationCode(
       args.phoneNumber,
-      args.verificationCode,
+      args.verificationCode
     );
 
     const hashedPhoneNumber = generatePhoneNumberHash(args.phoneNumber);
     await ctx.db.mutation.deletePhoneNumber({
-      where: { hashedPhoneNumber },
+      where: { hashedPhoneNumber }
     });
 
     return { ok: true };
@@ -60,5 +60,5 @@ export const Mutation = {
   async sendRawTransaction(parent, args, ctx) {
     const hash = await web3[args.network].eth.sendRawTransaction(args);
     return { hash, network: args.network };
-  },
+  }
 };

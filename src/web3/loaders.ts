@@ -5,7 +5,7 @@ import {
   web3,
   Web3Address,
   Web3Block,
-  Web3Transaction,
+  Web3Transaction
 } from "./client";
 
 export interface Web3HashRequest {
@@ -28,7 +28,7 @@ export function createWeb3Loaders() {
       return Promise.all(
         inputs.map(({ hash, network }) => {
           return web3[network].eth.getBalance(hash);
-        }),
+        })
       );
     }),
     block: new DataLoader<Web3BlockRequest, Web3Block>(inputs => {
@@ -40,7 +40,7 @@ export function createWeb3Loaders() {
           }
           block.network = i.network;
           return block;
-        }),
+        })
       );
     }),
     blockTransactionCount: new DataLoader<Web3HashRequest, number | null>(
@@ -48,9 +48,9 @@ export function createWeb3Loaders() {
         return Promise.all(
           inputs.map(async ({ hash, network }) => {
             return web3[network].eth.getBlockTransactionCount(hash);
-          }),
+          })
         );
-      },
+      }
     ),
     transaction: new DataLoader<Web3HashRequest, Web3Transaction>(inputs => {
       return Promise.all(
@@ -61,15 +61,15 @@ export function createWeb3Loaders() {
           }
           tx.network = network;
           return tx;
-        }),
+        })
       );
     }),
     transactionCount: new DataLoader<Web3HashRequest, number | null>(inputs => {
       return Promise.all(
         inputs.map(async ({ hash, network }) => {
           return web3[network].eth.getTransactionCount(hash);
-        }),
+        })
       );
-    }),
+    })
   };
 }

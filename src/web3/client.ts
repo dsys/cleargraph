@@ -6,7 +6,7 @@ export enum EthereumNetwork {
   MAINNET,
   ROPSTEN,
   KOVAN,
-  RINKEBY,
+  RINKEBY
 }
 
 export const web3: { [EthereumNetwork: string]: any } = {};

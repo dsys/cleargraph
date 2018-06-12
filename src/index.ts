@@ -6,10 +6,10 @@ import * as resolvers from "./resolvers";
 const server = new GraphQLServer({
   context: createContext,
   resolvers,
-  typeDefs: path.resolve(__dirname, "schema.graphql"),
+  typeDefs: path.resolve(__dirname, "schema.graphql")
 });
 
 server.start(info =>
   // tslint:disable-next-line:no-console
-  console.log(`Server is running on localhost:${info.port}`),
+  console.log(`Server is running on localhost:${info.port}`)
 );

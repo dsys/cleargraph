@@ -4,87 +4,87 @@ export const registryInterface = [
     inputs: [
       {
         name: "node",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "resolver",
     outputs: [
       {
         name: "",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: true,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "owner",
     outputs: [
       {
         name: "",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "resolver",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "setResolver",
     outputs: [],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "label",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "owner",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "setSubnodeOwner",
     outputs: [],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "owner",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "setOwner",
     outputs: [],
-    type: "function",
-  },
+    type: "function"
+  }
 ];
 
 export const resolverInterface = [
@@ -93,145 +93,145 @@ export const resolverInterface = [
     inputs: [
       {
         name: "node",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "addr",
     outputs: [
       {
         name: "",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: true,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "content",
     outputs: [
       {
         name: "",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: true,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "name",
     outputs: [
       {
         name: "",
-        type: "string",
-      },
+        type: "string"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: true,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "kind",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "has",
     outputs: [
       {
         name: "",
-        type: "bool",
-      },
+        type: "bool"
+      }
     ],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "addr",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "setAddr",
     outputs: [],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "hash",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "setContent",
     outputs: [],
-    type: "function",
+    type: "function"
   },
   {
     constant: false,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "name",
-        type: "string",
-      },
+        type: "string"
+      }
     ],
     name: "setName",
     outputs: [],
-    type: "function",
+    type: "function"
   },
   {
     constant: true,
     inputs: [
       {
         name: "node",
-        type: "bytes32",
+        type: "bytes32"
       },
       {
         name: "contentType",
-        type: "uint256",
-      },
+        type: "uint256"
+      }
     ],
     name: "ABI",
     outputs: [
       {
         name: "",
-        type: "uint256",
+        type: "uint256"
       },
       {
         name: "",
-        type: "bytes",
-      },
+        type: "bytes"
+      }
     ],
     payable: false,
-    type: "function",
-  },
+    type: "function"
+  }
 ];

@@ -15,12 +15,12 @@ export interface Query {
       last?: Int;
     },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   phoneNumber: <T = PhoneNumber | null>(
     args: { where: PhoneNumberWhereUniqueInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   phoneNumbersConnection: <T = PhoneNumberConnection>(
     args: {
@@ -33,12 +33,12 @@ export interface Query {
       last?: Int;
     },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   node: <T = Node | null>(
     args: { id: ID_Output },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
 }
 
@@ -46,17 +46,17 @@ export interface Mutation {
   createPhoneNumber: <T = PhoneNumber>(
     args: { data: PhoneNumberCreateInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   updatePhoneNumber: <T = PhoneNumber | null>(
     args: { data: PhoneNumberUpdateInput; where: PhoneNumberWhereUniqueInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   deletePhoneNumber: <T = PhoneNumber | null>(
     args: { where: PhoneNumberWhereUniqueInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   upsertPhoneNumber: <T = PhoneNumber>(
     args: {
@@ -65,17 +65,17 @@ export interface Mutation {
       update: PhoneNumberUpdateInput;
     },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   updateManyPhoneNumbers: <T = BatchPayload>(
     args: { data: PhoneNumberUpdateInput; where?: PhoneNumberWhereInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
   deleteManyPhoneNumbers: <T = BatchPayload>(
     args: { where?: PhoneNumberWhereInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<T>;
 }
 
@@ -83,7 +83,7 @@ export interface Subscription {
   phoneNumber: <T = PhoneNumberSubscriptionPayload | null>(
     args: { where?: PhoneNumberSubscriptionWhereInput },
     info?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ) => Promise<AsyncIterator<T>>;
 }
 
@@ -98,7 +98,7 @@ export interface Prisma {
   exists: Exists;
   request: <T = any>(
     query: string,
-    variables?: { [key: string]: any },
+    variables?: { [key: string]: any }
   ) => Promise<T>;
   delegate(
     operation: "query" | "mutation",
@@ -107,7 +107,7 @@ export interface Prisma {
       [key: string]: any;
     },
     infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ): Promise<any>;
   delegateSubscription(
     fieldName: string,
@@ -115,7 +115,7 @@ export interface Prisma {
       [key: string]: any;
     },
     infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options,
+    options?: Options
   ): Promise<AsyncIterator<any>>;
   getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 }
@@ -432,7 +432,7 @@ type Subscription {
 `;
 
 export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({
-  typeDefs,
+  typeDefs
 });
 
 /**
