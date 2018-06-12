@@ -4,6 +4,7 @@ import {
   generatePhoneNumberHash,
   startPhoneNumberVerification
 } from "../phone";
+import { isValidEthereumAddress } from "../web3/address";
 import { web3 } from "../web3/client";
 
 export const Mutation = {
@@ -25,7 +26,15 @@ export const Mutation = {
     ctx: Context,
     info
   ) {
-    // await checkPhoneNumberVerificationCode(args.phoneNumber, args.verificationCode);
+    if (!isValidEthereumAddress(args.address)) {
+      // TODO: Move this validation to a scalar type.
+      throw new Error("invalid Ethereum address");
+    }
+
+    await checkPhoneNumberVerificationCode(
+      args.phoneNumber,
+      args.verificationCode
+    );
 
     const hashedPhoneNumber = generatePhoneNumberHash(args.phoneNumber);
     return ctx.db.mutation.upsertPhoneNumber(

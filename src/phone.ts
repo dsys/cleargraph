@@ -102,6 +102,6 @@ export async function checkPhoneNumberVerificationCode(
 
 export function generatePhoneNumberHash(phoneNumber: string): string {
   const hash = crypto.createHash("sha256");
-  hash.update(phoneNumber);
+  hash.update(normalizePhoneNumber(phoneNumber));
   return hash.digest("hex");
 }

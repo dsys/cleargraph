@@ -87,3 +87,12 @@ type EthereumBlock {
   transactionCount: Int!
   uncles: [EthereumBlock!]!
 }
+
+type PhoneNumber {
+  hashedPhoneNumber: String!
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
+}
