@@ -1,3 +1,7 @@
+import {
+  format as formatPhoneNumber,
+  parse as parsePhoneNumber,
+} from "libphonenumber-js";
 import * as fetch from "node-fetch";
 import * as qs from "qs";
 import { DEFAULT_REDIS_CLIENT } from "./redis";
@@ -13,6 +17,12 @@ const CODE_LENGTH = 6;
 const CODE_TIMEOUT = 60 * 30; // 30 mins in seconds
 const MAX_ATTEMPTS = 5;
 const REQUEST_TIMEOUT = 5 * 1000;
+const DEFAULT_COUNTRY_CODE = "US";
+
+export function normalizePhoneNumber(phoneNumber: string): string {
+  const parsed = parsePhoneNumber(phoneNumber, DEFAULT_COUNTRY_CODE);
+  return parsed.country ? formatPhoneNumber(parsed, "E.164") : null;
+}
 
 export function generateRandomVerificationCode(
   length: number = CODE_LENGTH,
@@ -29,8 +39,9 @@ export function generateTextMessage(
 }
 
 export async function startPhoneNumberVerification(
-  phoneNumber: string,
+  rawPhoneNumber: string,
 ): Promise<void> {
+  const phoneNumber = normalizePhoneNumber(rawPhoneNumber);
   const redisKey = `phoneVerificationCodes:${phoneNumber}`;
   const verificationCode = generateRandomVerificationCode();
   await DEFAULT_REDIS_CLIENT.hmsetAsync(redisKey, {
@@ -64,9 +75,10 @@ export async function startPhoneNumberVerification(
 }
 
 export async function checkPhoneNumberVerificationCode(
-  phoneNumber: string,
+  rawPhoneNumber: string,
   verificationCode: string,
 ): Promise<void> {
+  const phoneNumber = normalizePhoneNumber(rawPhoneNumber);
   const redisKey = `phoneVerificationCodes:${phoneNumber}`;
   const data = await DEFAULT_REDIS_CLIENT.hgetallAsync(redisKey);
   if (!data) { throw new Error("verification code expired"); }
