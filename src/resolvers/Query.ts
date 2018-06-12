@@ -2,6 +2,12 @@ import { Context } from "../context";
 import { web3 } from "../web3/client";
 
 export const Query = {
+  phoneNumber(parent, { hashedPhoneNumber }, ctx: Context, info) {
+    return ctx.db.query.phoneNumber({
+      where: { hashedPhoneNumber: hashedPhoneNumber.toLowerCase() },
+    });
+  },
+
   ethereumGasPrice(parent, { network = "MAINNET" }) {
     return web3[network].eth.getGasPrice();
   },

@@ -10,7 +10,9 @@ export const ENS_CONTRACT_ADDRESSES: { [EthereumNetwork: string]: string } = {
 
 export const ens: { [EthereumNetwork: string]: any } = {};
 for (const network in ENS_CONTRACT_ADDRESSES) {
-  if (!isNaN(Number(network))) { continue; }
+  if (!isNaN(Number(network))) {
+    continue;
+  }
   ens[network] = new web3[network].eth.Contract(
     registryInterface,
     ENS_CONTRACT_ADDRESSES[network],
@@ -20,7 +22,9 @@ for (const network in ENS_CONTRACT_ADDRESSES) {
 export async function resolveENSAddress(network, host) {
   const nh = namehash.hash(host);
   const registry = ens[network];
-  if (!registry) { return null; }
+  if (!registry) {
+    return null;
+  }
 
   const resolverAddr = await registry.methods.resolver(nh).call();
   if (resolverAddr === "0x0000000000000000000000000000000000000000") {

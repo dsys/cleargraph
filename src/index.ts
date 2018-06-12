@@ -9,9 +9,7 @@ const server = new GraphQLServer({
   typeDefs: path.resolve(__dirname, "schema.graphql"),
 });
 
-server.start((info) =>
+server.start(info =>
   // tslint:disable-next-line:no-console
-  console.log(
-    `Server is running on localhost:${info.port}`,
-  ),
+  console.log(`Server is running on localhost:${info.port}`),
 );

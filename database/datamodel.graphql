@@ -1,0 +1,6 @@
+type PhoneNumber {
+  hashedPhoneNumber: String! @unique
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

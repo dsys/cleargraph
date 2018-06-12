@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   redis:
     container_name: redis
     image: redis:latest
@@ -11,3 +12,32 @@ services:
     - 'yes'
     volumes:
     - ./tmp/volumes/redis:/data
+
+  prisma:
+    image: prismagraphql/prisma:1.9
+    ports:
+    - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        managementApiSecret: not-a-secret
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            port: 5432
+            user: root
+            password: prisma
+            migrations: true
+            managementSchema: management
+            database: prisma
+    links:
+    - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma
+    volumes:
+    - ./tmp/volumes/postgres:/var/lib/postgresql/data

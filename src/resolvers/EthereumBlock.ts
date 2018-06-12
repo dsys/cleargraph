@@ -16,7 +16,7 @@ export const EthereumBlock = {
   },
   transactions(parent: Web3Block, args, ctx: Context) {
     return ctx.loaders.web3.transaction.loadMany(
-      parent.transactions.map((hash) => ({ hash, network: parent.network })),
+      parent.transactions.map(hash => ({ hash, network: parent.network })),
     );
   },
   transactionCount(parent: Web3Block, args, ctx: Context) {
@@ -27,7 +27,7 @@ export const EthereumBlock = {
   },
   uncles(parent: Web3Block, args, ctx: Context) {
     return ctx.loaders.web3.block.loadMany(
-      parent.uncles.map((hash) => ({
+      parent.uncles.map(hash => ({
         hash,
         network: parent.network,
       })),

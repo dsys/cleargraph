@@ -1,0 +1,305 @@
+# source: http://localhost:4466
+# timestamp: Mon Jun 11 2018 22:14:31 GMT-0700 (PDT)
+
+type AggregatePhoneNumber {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+scalar DateTime
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createPhoneNumber(data: PhoneNumberCreateInput!): PhoneNumber!
+  updatePhoneNumber(data: PhoneNumberUpdateInput!, where: PhoneNumberWhereUniqueInput!): PhoneNumber
+  deletePhoneNumber(where: PhoneNumberWhereUniqueInput!): PhoneNumber
+  upsertPhoneNumber(where: PhoneNumberWhereUniqueInput!, create: PhoneNumberCreateInput!, update: PhoneNumberUpdateInput!): PhoneNumber!
+  updateManyPhoneNumbers(data: PhoneNumberUpdateInput!, where: PhoneNumberWhereInput): BatchPayload!
+  deleteManyPhoneNumbers(where: PhoneNumberWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type PhoneNumber {
+  hashedPhoneNumber: String!
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type PhoneNumberConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PhoneNumberEdge]!
+  aggregate: AggregatePhoneNumber!
+}
+
+input PhoneNumberCreateInput {
+  hashedPhoneNumber: String!
+  address: String!
+}
+
+"""An edge in a connection."""
+type PhoneNumberEdge {
+  """The item at the end of the edge."""
+  node: PhoneNumber!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PhoneNumberOrderByInput {
+  hashedPhoneNumber_ASC
+  hashedPhoneNumber_DESC
+  address_ASC
+  address_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  id_ASC
+  id_DESC
+}
+
+type PhoneNumberPreviousValues {
+  hashedPhoneNumber: String!
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PhoneNumberSubscriptionPayload {
+  mutation: MutationType!
+  node: PhoneNumber
+  updatedFields: [String!]
+  previousValues: PhoneNumberPreviousValues
+}
+
+input PhoneNumberSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PhoneNumberSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PhoneNumberSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PhoneNumberSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PhoneNumberWhereInput
+}
+
+input PhoneNumberUpdateInput {
+  hashedPhoneNumber: String
+  address: String
+}
+
+input PhoneNumberWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PhoneNumberWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PhoneNumberWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PhoneNumberWhereInput!]
+  hashedPhoneNumber: String
+
+  """All values that are not equal to given value."""
+  hashedPhoneNumber_not: String
+
+  """All values that are contained in given list."""
+  hashedPhoneNumber_in: [String!]
+
+  """All values that are not contained in given list."""
+  hashedPhoneNumber_not_in: [String!]
+
+  """All values less than the given value."""
+  hashedPhoneNumber_lt: String
+
+  """All values less than or equal the given value."""
+  hashedPhoneNumber_lte: String
+
+  """All values greater than the given value."""
+  hashedPhoneNumber_gt: String
+
+  """All values greater than or equal the given value."""
+  hashedPhoneNumber_gte: String
+
+  """All values containing the given string."""
+  hashedPhoneNumber_contains: String
+
+  """All values not containing the given string."""
+  hashedPhoneNumber_not_contains: String
+
+  """All values starting with the given string."""
+  hashedPhoneNumber_starts_with: String
+
+  """All values not starting with the given string."""
+  hashedPhoneNumber_not_starts_with: String
+
+  """All values ending with the given string."""
+  hashedPhoneNumber_ends_with: String
+
+  """All values not ending with the given string."""
+  hashedPhoneNumber_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+input PhoneNumberWhereUniqueInput {
+  hashedPhoneNumber: String
+}
+
+type Query {
+  phoneNumbers(where: PhoneNumberWhereInput, orderBy: PhoneNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PhoneNumber]!
+  phoneNumber(where: PhoneNumberWhereUniqueInput!): PhoneNumber
+  phoneNumbersConnection(where: PhoneNumberWhereInput, orderBy: PhoneNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PhoneNumberConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  phoneNumber(where: PhoneNumberSubscriptionWhereInput): PhoneNumberSubscriptionPayload
+}

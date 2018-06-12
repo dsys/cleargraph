@@ -1,3 +1,4 @@
+import * as crypto from "crypto";
 import {
   format as formatPhoneNumber,
   parse as parsePhoneNumber,
@@ -32,9 +33,7 @@ export function generateRandomVerificationCode(
     .padStart(CODE_LENGTH, "0");
 }
 
-export function generateTextMessage(
-  verificationCode: string,
-): string {
+export function generateTextMessage(verificationCode: string): string {
   return `Your Multi verification code is: ${verificationCode}`;
 }
 
@@ -81,7 +80,9 @@ export async function checkPhoneNumberVerificationCode(
   const phoneNumber = normalizePhoneNumber(rawPhoneNumber);
   const redisKey = `phoneVerificationCodes:${phoneNumber}`;
   const data = await DEFAULT_REDIS_CLIENT.hgetallAsync(redisKey);
-  if (!data) { throw new Error("verification code expired"); }
+  if (!data) {
+    throw new Error("verification code expired");
+  }
 
   const attemptsLeft = parseInt(data.attemptsLeft, 10);
 
@@ -97,4 +98,10 @@ export async function checkPhoneNumberVerificationCode(
   await DEFAULT_REDIS_CLIENT.delAsync([redisKey]);
 
   return;
+}
+
+export function generatePhoneNumberHash(phoneNumber: string): string {
+  const hash = crypto.createHash("sha256");
+  hash.update(phoneNumber);
+  return hash.digest("hex");
 }
