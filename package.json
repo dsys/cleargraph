@@ -4,10 +4,12 @@
   "license": "Apache-2.0",
   "author": "Alex Kern <alex@cleargraph.com>",
   "scripts": {
-    "start": "nodemon -e ts,graphql -x ts-node src/index.ts",
-    "debug": "nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
+    "start": "nodemon -e ts,graphql -x ts-node -r dotenv/config src/index.ts",
+    "debug": "nodemon -e ts,graphql -x ts-node -r dotenv/config --inspect src/index.ts",
     "playground": "graphql playground",
-    "dev": "npm-run-all --parallel start playground",
+    "dev": "npm-run-all --parallel dev:redis dev:multi-api playground",
+    "dev:multi-api": "./scripts/wait-for.sh localhost:6379 -- yarn run start",
+    "dev:redis": "docker-compose up redis",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "check": "tsc --noEmit",
     "precommit": "yarn run check && yarn run lint",
@@ -15,13 +17,17 @@
     "docker:run": "docker run -it dsys/eth-explorer:latest"
   },
   "dependencies": {
+    "bluebird": "^3.5.1",
     "dataloader": "^1.4.0",
     "eth-ens-namehash": "^2.0.8",
     "graphql-yoga": "1.14.6",
+    "node-fetch": "^2.1.2",
+    "qs": "^6.5.2",
+    "redis": "^2.8.0",
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
-    "dotenv": "5.0.1",
+    "dotenv": "^6.0.0",
     "graphql-cli": "2.16.0",
     "husky": "^0.14.3",
     "nodemon": "1.17.5",

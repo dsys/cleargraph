@@ -15,10 +15,24 @@ type Query {
 }
 
 type Mutation {
+  startPhoneNumberVerification(
+    phoneNumber: String!
+  ): Ack
+
+  updatePhoneNumber(
+    phoneNumber: String!
+    verificationCode: String!
+    address: String!
+  ): EthereumAddress
+
   sendRawTransaction(
     data: String!
     network: ETHEREUM_NETWORK
   ): EthereumTransaction
+}
+
+type Ack {
+  ok: Boolean
 }
 
 type EthereumAddress {

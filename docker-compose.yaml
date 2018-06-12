@@ -1,0 +1,13 @@
+version: '3'
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+    - 6379:6379
+    command:
+    - redis-server
+    - --appendonly
+    - 'yes'
+    volumes:
+    - ./tmp/volumes/redis:/data
