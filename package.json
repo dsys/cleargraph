@@ -1,5 +1,5 @@
 {
-  "name": "eth-explorer",
+  "name": "multi-api",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "author": "Alex Kern <alex@cleargraph.com>",
@@ -16,8 +16,8 @@
     "lint": "tslint --fix --exclude src/generated/prisma.ts 'src/**/*.ts'",
     "check": "tsc --noEmit && tslint --exclude src/generated/prisma.ts 'src/**/*.ts'",
     "precommit": "yarn run check",
-    "docker:build": "docker build -t dsys/eth-explorer:latest .",
-    "docker:run": "docker run -it dsys/eth-explorer:latest"
+    "docker:build": "docker build -t dsys/multi-api:latest .",
+    "docker:run": "docker run -it dsys/multi-api:latest"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
