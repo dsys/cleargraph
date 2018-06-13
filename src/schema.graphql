@@ -1,3 +1,5 @@
+# import PhoneNumber from "./generated/prisma.graphql"
+
 enum ETHEREUM_NETWORK {
   MAINNET
   ROPSTEN
@@ -6,6 +8,8 @@ enum ETHEREUM_NETWORK {
 }
 
 type Query {
+  phoneNumber(hashedPhoneNumber: String!): PhoneNumber
+
   ethereumGasPrice(network: ETHEREUM_NETWORK): String!
   ethereumBlockNumber(network: ETHEREUM_NETWORK): Int!
 
@@ -15,10 +19,29 @@ type Query {
 }
 
 type Mutation {
+  startPhoneNumberVerification(
+    phoneNumber: String!
+  ): Ack
+
+  updatePhoneNumber(
+    phoneNumber: String!
+    verificationCode: String!
+    address: String!
+  ): PhoneNumber
+
+  deletePhoneNumber(
+    phoneNumber: String!
+    verificationCode: String!
+  ): Ack
+
   sendRawTransaction(
     data: String!
     network: ETHEREUM_NETWORK
   ): EthereumTransaction
+}
+
+type Ack {
+  ok: Boolean
 }
 
 type EthereumAddress {
@@ -63,4 +86,13 @@ type EthereumBlock {
   transactions: [EthereumTransaction!]!
   transactionCount: Int!
   uncles: [EthereumBlock!]!
+}
+
+type PhoneNumber {
+  hashedPhoneNumber: String!
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
 }

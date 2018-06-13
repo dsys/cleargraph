@@ -7,5 +7,5 @@ export const EthereumAddress = {
   },
   transactionCount: (parent: Web3Address, args, ctx: Context) => {
     return ctx.loaders.web3.transactionCount.load(parent);
-  },
+  }
 };
