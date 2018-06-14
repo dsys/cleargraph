@@ -1,7 +1,5 @@
 # multi-api
 
-![npm](https://img.shields.io/npm/v/@dsys/multi-api.svg)
-
 Explore the Ethereum blockchain using a rich GraphQL API. [**Try it in your browser!**](https://www.graphqlbin.com/v2/nrk9s6)
 
 Users want consistent experiences across platforms, but delivering this leads to headaches for developers of decentralized applications. Developers often end up duplicating Ethereum-related application logic between native and web-based clients to support the advanced functionalities of smart contracts, such as identity management and ENS address resolution.
