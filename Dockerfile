@@ -12,6 +12,7 @@ COPY src src
 RUN `yarn bin`/tsc -p .
 
 COPY src/schema.graphql dist
+COPY src/generated/prisma.graphql dist/generated/prisma.graphql
 
 ENV PORT 4000
 WORKDIR /dist
