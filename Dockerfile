@@ -11,6 +11,7 @@ COPY src src
 
 RUN `yarn bin`/tsc -p .
 
+COPY database database
 COPY src/schema.graphql dist
 COPY src/generated/prisma.graphql dist/generated/prisma.graphql
 
