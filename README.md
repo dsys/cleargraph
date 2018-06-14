@@ -1,6 +1,6 @@
 # multi-api
 
-![npm](https://img.shields.io/npm/v/multi-api.svg)
+![npm](https://img.shields.io/npm/v/@dsys/multi-api.svg)
 
 Explore the Ethereum blockchain using a rich GraphQL API. [**Try it in your browser!**](https://www.graphqlbin.com/v2/nrk9s6)
 
