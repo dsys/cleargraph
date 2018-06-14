@@ -11,10 +11,11 @@ COPY src src
 
 RUN `yarn bin`/tsc -p .
 
+COPY .graphqlconfig.yml .graphqlconfig.yml
 COPY database database
 COPY src/schema.graphql dist
 COPY src/generated/prisma.graphql dist/generated/prisma.graphql
 
+ENV NODE_ENV production
 ENV PORT 4000
-WORKDIR /dist
-CMD node index.js
+CMD node /dist/index.js
