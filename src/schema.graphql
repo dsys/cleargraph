@@ -1,5 +1,10 @@
 # import PhoneNumber from "./generated/prisma.graphql"
 
+scalar HexValue
+scalar EthereumAddressHexValue
+scalar EthereumBlockHashHexValue
+scalar EthereumTransactionHashHexValue
+
 enum ETHEREUM_NETWORK {
   MAINNET
   ROPSTEN
@@ -13,9 +18,14 @@ type Query {
   ethereumGasPrice(network: ETHEREUM_NETWORK): String!
   ethereumBlockNumber(network: ETHEREUM_NETWORK): Int!
 
-  ethereumBlock(hash: String, number: Int, network: ETHEREUM_NETWORK): EthereumBlock
-  ethereumTransaction(hash: String!, network: ETHEREUM_NETWORK): EthereumTransaction
-  ethereumAddress(hash: String!, network: ETHEREUM_NETWORK): EthereumAddress
+  ethereumBlock(hash: EthereumBlockHashHexValue, number: Int, network: ETHEREUM_NETWORK): EthereumBlock
+
+  ethereumTransaction(
+    hash: EthereumTransactionHashHexValue!
+    network: ETHEREUM_NETWORK
+  ): EthereumTransaction
+
+  ethereumAddress(hash: EthereumAddressHexValue!, network: ETHEREUM_NETWORK): EthereumAddress
 }
 
 type Mutation {
@@ -46,7 +56,7 @@ type Ack {
 
 type EthereumAddress {
   network: ETHEREUM_NETWORK!
-  hash: String!
+  hash: EthereumAddressHexValue!
   balance: String!
 
   transactionCount: Int!
@@ -55,7 +65,7 @@ type EthereumAddress {
 
 type EthereumTransaction {
   network: ETHEREUM_NETWORK!
-  hash: String!
+  hash: EthereumTransactionHashHexValue!
   nonce: Int!
   block: EthereumBlock
   transactionIndex: Int!
@@ -69,7 +79,7 @@ type EthereumTransaction {
 
 type EthereumBlock {
   network: ETHEREUM_NETWORK!
-  hash: String!
+  hash: EthereumBlockHashHexValue!
   number: Int!
   parent: EthereumBlock
   nonce: String!
