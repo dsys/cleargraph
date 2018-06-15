@@ -14,8 +14,10 @@
     "dev:prisma:deploy": "yarn prisma deploy && yarn run codegen",
     "dev:playground": "graphql playground",
     "codegen": "graphql get-schema --project database && graphql codegen",
-    "lint": "tslint --fix --exclude src/generated/prisma.ts 'src/**/*.ts'",
-    "check": "tsc --noEmit && tslint --exclude src/generated/prisma.ts 'src/**/*.ts'",
+    "lint": "npm-run-all --parallel lint:typescript lint:graphql",
+    "lint:typescript": "tslint --fix --exclude src/generated/prisma.ts 'src/**/*.ts'",
+    "lint:graphql": "prettier --write 'database/**/*.graphql' 'src/schema.graphql'",
+    "check": "tsc --noEmit && tslint --exclude src/generated/prisma.ts 'src/**/*.ts' && prettier -l 'database/**/*.graphql' 'src/schema.graphql'",
     "precommit": "yarn run check",
     "docker:build": "docker build -t dsys/multi-api:latest .",
     "docker:run": "docker run -it dsys/multi-api:latest"

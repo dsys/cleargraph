@@ -18,20 +18,25 @@ type Query {
   ethereumGasPrice(network: ETHEREUM_NETWORK): String!
   ethereumBlockNumber(network: ETHEREUM_NETWORK): Int!
 
-  ethereumBlock(hash: EthereumBlockHashHexValue, number: Int, network: ETHEREUM_NETWORK): EthereumBlock
+  ethereumBlock(
+    hash: EthereumBlockHashHexValue
+    number: Int
+    network: ETHEREUM_NETWORK
+  ): EthereumBlock
 
   ethereumTransaction(
     hash: EthereumTransactionHashHexValue!
     network: ETHEREUM_NETWORK
   ): EthereumTransaction
 
-  ethereumAddress(hash: EthereumAddressHexValue!, network: ETHEREUM_NETWORK): EthereumAddress
+  ethereumAddress(
+    hash: EthereumAddressHexValue!
+    network: ETHEREUM_NETWORK
+  ): EthereumAddress
 }
 
 type Mutation {
-  startPhoneNumberVerification(
-    phoneNumber: String!
-  ): Ack
+  startPhoneNumberVerification(phoneNumber: String!): Ack
 
   updatePhoneNumber(
     phoneNumber: String!
@@ -39,10 +44,7 @@ type Mutation {
     address: String!
   ): PhoneNumber
 
-  deletePhoneNumber(
-    phoneNumber: String!
-    verificationCode: String!
-  ): Ack
+  deletePhoneNumber(phoneNumber: String!, verificationCode: String!): Ack
 
   sendRawTransaction(
     data: String!
@@ -60,7 +62,12 @@ type EthereumAddress {
   balance: String!
 
   transactionCount: Int!
-  transactions(startBlock: Int, endBlock: Int, page: Int, offset: Int): [EthereumTransaction!]
+  transactions(
+    startBlock: Int
+    endBlock: Int
+    page: Int
+    offset: Int
+  ): [EthereumTransaction!]
 }
 
 type EthereumTransaction {
