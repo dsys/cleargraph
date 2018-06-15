@@ -1,131 +1,53 @@
-import { GraphQLResolveInfo, GraphQLSchema } from "graphql";
-import { Options } from "graphql-binding";
-import { IResolvers } from "graphql-tools/dist/Interfaces";
-import { BasePrismaOptions, makePrismaBindingClass } from "prisma-binding";
+import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
+import { IResolvers } from 'graphql-tools/dist/Interfaces'
+import { Options } from 'graphql-binding'
+import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
-  phoneNumbers: <T = PhoneNumber[]>(
-    args: {
-      where?: PhoneNumberWhereInput;
-      orderBy?: PhoneNumberOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  phoneNumber: <T = PhoneNumber | null>(
-    args: { where: PhoneNumberWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  phoneNumbersConnection: <T = PhoneNumberConnection>(
-    args: {
-      where?: PhoneNumberWhereInput;
-      orderBy?: PhoneNumberOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  node: <T = Node | null>(
-    args: { id: ID_Output },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-}
+    phoneNumbers: <T = PhoneNumber[]>(args: { where?: PhoneNumberWhereInput, orderBy?: PhoneNumberOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    phoneNumber: <T = PhoneNumber | null>(args: { where: PhoneNumberWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    phoneNumbersConnection: <T = PhoneNumberConnection>(args: { where?: PhoneNumberWhereInput, orderBy?: PhoneNumberOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    node: <T = Node | null>(args: { id: ID_Output }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+  }
 
 export interface Mutation {
-  createPhoneNumber: <T = PhoneNumber>(
-    args: { data: PhoneNumberCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  updatePhoneNumber: <T = PhoneNumber | null>(
-    args: { data: PhoneNumberUpdateInput; where: PhoneNumberWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  deletePhoneNumber: <T = PhoneNumber | null>(
-    args: { where: PhoneNumberWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  upsertPhoneNumber: <T = PhoneNumber>(
-    args: {
-      where: PhoneNumberWhereUniqueInput;
-      create: PhoneNumberCreateInput;
-      update: PhoneNumberUpdateInput;
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  updateManyPhoneNumbers: <T = BatchPayload>(
-    args: { data: PhoneNumberUpdateInput; where?: PhoneNumberWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-  deleteManyPhoneNumbers: <T = BatchPayload>(
-    args: { where?: PhoneNumberWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>;
-}
+    createPhoneNumber: <T = PhoneNumber>(args: { data: PhoneNumberCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updatePhoneNumber: <T = PhoneNumber | null>(args: { data: PhoneNumberUpdateInput, where: PhoneNumberWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deletePhoneNumber: <T = PhoneNumber | null>(args: { where: PhoneNumberWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertPhoneNumber: <T = PhoneNumber>(args: { where: PhoneNumberWhereUniqueInput, create: PhoneNumberCreateInput, update: PhoneNumberUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyPhoneNumbers: <T = BatchPayload>(args: { data: PhoneNumberUpdateInput, where?: PhoneNumberWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyPhoneNumbers: <T = BatchPayload>(args: { where?: PhoneNumberWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+  }
 
 export interface Subscription {
-  phoneNumber: <T = PhoneNumberSubscriptionPayload | null>(
-    args: { where?: PhoneNumberSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>;
-}
+    phoneNumber: <T = PhoneNumberSubscriptionPayload | null>(args: { where?: PhoneNumberSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> 
+  }
 
 export interface Exists {
-  PhoneNumber: (where?: PhoneNumberWhereInput) => Promise<boolean>;
+  PhoneNumber: (where?: PhoneNumberWhereInput) => Promise<boolean>
 }
 
 export interface Prisma {
-  query: Query;
-  mutation: Mutation;
-  subscription: Subscription;
-  exists: Exists;
-  request: <T = any>(
-    query: string,
-    variables?: { [key: string]: any }
-  ) => Promise<T>;
-  delegate(
-    operation: "query" | "mutation",
-    fieldName: string,
-    args: {
-      [key: string]: any;
-    },
-    infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options
-  ): Promise<any>;
-  delegateSubscription(
-    fieldName: string,
-    args?: {
-      [key: string]: any;
-    },
-    infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options
-  ): Promise<AsyncIterator<any>>;
-  getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+  exists: Exists
+  request: <T = any>(query: string, variables?: {[key: string]: any}) => Promise<T>
+  delegate(operation: 'query' | 'mutation', fieldName: string, args: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<any>;
+delegateSubscription(fieldName: string, args?: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<AsyncIterator<any>>;
+getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 }
 
 export interface BindingConstructor<T> {
-  new (options: BasePrismaOptions): T;
+  new(options: BasePrismaOptions): T
 }
 /**
  * Type Defs
- */
+*/
 
 const typeDefs = `type AggregatePhoneNumber {
   count: Int!
@@ -429,103 +351,102 @@ type Query {
 type Subscription {
   phoneNumber(where: PhoneNumberSubscriptionWhereInput): PhoneNumberSubscriptionPayload
 }
-`;
+`
 
-export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({
-  typeDefs
-});
+export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDefs})
 
 /**
  * Types
- */
+*/
 
-export type PhoneNumberOrderByInput =
-  | "hashedPhoneNumber_ASC"
-  | "hashedPhoneNumber_DESC"
-  | "address_ASC"
-  | "address_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "id_ASC"
-  | "id_DESC";
+export type PhoneNumberOrderByInput =   'hashedPhoneNumber_ASC' |
+  'hashedPhoneNumber_DESC' |
+  'address_ASC' |
+  'address_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'id_ASC' |
+  'id_DESC'
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+export type MutationType =   'CREATED' |
+  'UPDATED' |
+  'DELETED'
 
 export interface PhoneNumberCreateInput {
-  hashedPhoneNumber: String;
-  address: String;
+  hashedPhoneNumber: String
+  address: String
 }
 
 export interface PhoneNumberWhereUniqueInput {
-  hashedPhoneNumber?: String;
+  hashedPhoneNumber?: String
 }
 
 export interface PhoneNumberUpdateInput {
-  hashedPhoneNumber?: String;
-  address?: String;
+  hashedPhoneNumber?: String
+  address?: String
 }
 
 export interface PhoneNumberSubscriptionWhereInput {
-  AND?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput;
-  OR?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput;
-  NOT?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput;
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PhoneNumberWhereInput;
+  AND?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput
+  OR?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput
+  NOT?: PhoneNumberSubscriptionWhereInput[] | PhoneNumberSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: PhoneNumberWhereInput
 }
 
 export interface PhoneNumberWhereInput {
-  AND?: PhoneNumberWhereInput[] | PhoneNumberWhereInput;
-  OR?: PhoneNumberWhereInput[] | PhoneNumberWhereInput;
-  NOT?: PhoneNumberWhereInput[] | PhoneNumberWhereInput;
-  hashedPhoneNumber?: String;
-  hashedPhoneNumber_not?: String;
-  hashedPhoneNumber_in?: String[] | String;
-  hashedPhoneNumber_not_in?: String[] | String;
-  hashedPhoneNumber_lt?: String;
-  hashedPhoneNumber_lte?: String;
-  hashedPhoneNumber_gt?: String;
-  hashedPhoneNumber_gte?: String;
-  hashedPhoneNumber_contains?: String;
-  hashedPhoneNumber_not_contains?: String;
-  hashedPhoneNumber_starts_with?: String;
-  hashedPhoneNumber_not_starts_with?: String;
-  hashedPhoneNumber_ends_with?: String;
-  hashedPhoneNumber_not_ends_with?: String;
-  address?: String;
-  address_not?: String;
-  address_in?: String[] | String;
-  address_not_in?: String[] | String;
-  address_lt?: String;
-  address_lte?: String;
-  address_gt?: String;
-  address_gte?: String;
-  address_contains?: String;
-  address_not_contains?: String;
-  address_starts_with?: String;
-  address_not_starts_with?: String;
-  address_ends_with?: String;
-  address_not_ends_with?: String;
-  createdAt?: DateTime;
-  createdAt_not?: DateTime;
-  createdAt_in?: DateTime[] | DateTime;
-  createdAt_not_in?: DateTime[] | DateTime;
-  createdAt_lt?: DateTime;
-  createdAt_lte?: DateTime;
-  createdAt_gt?: DateTime;
-  createdAt_gte?: DateTime;
-  updatedAt?: DateTime;
-  updatedAt_not?: DateTime;
-  updatedAt_in?: DateTime[] | DateTime;
-  updatedAt_not_in?: DateTime[] | DateTime;
-  updatedAt_lt?: DateTime;
-  updatedAt_lte?: DateTime;
-  updatedAt_gt?: DateTime;
-  updatedAt_gte?: DateTime;
+  AND?: PhoneNumberWhereInput[] | PhoneNumberWhereInput
+  OR?: PhoneNumberWhereInput[] | PhoneNumberWhereInput
+  NOT?: PhoneNumberWhereInput[] | PhoneNumberWhereInput
+  hashedPhoneNumber?: String
+  hashedPhoneNumber_not?: String
+  hashedPhoneNumber_in?: String[] | String
+  hashedPhoneNumber_not_in?: String[] | String
+  hashedPhoneNumber_lt?: String
+  hashedPhoneNumber_lte?: String
+  hashedPhoneNumber_gt?: String
+  hashedPhoneNumber_gte?: String
+  hashedPhoneNumber_contains?: String
+  hashedPhoneNumber_not_contains?: String
+  hashedPhoneNumber_starts_with?: String
+  hashedPhoneNumber_not_starts_with?: String
+  hashedPhoneNumber_ends_with?: String
+  hashedPhoneNumber_not_ends_with?: String
+  address?: String
+  address_not?: String
+  address_in?: String[] | String
+  address_not_in?: String[] | String
+  address_lt?: String
+  address_lte?: String
+  address_gt?: String
+  address_gte?: String
+  address_contains?: String
+  address_not_contains?: String
+  address_starts_with?: String
+  address_not_starts_with?: String
+  address_ends_with?: String
+  address_not_ends_with?: String
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
 }
 
 /*
@@ -533,32 +454,32 @@ export interface PhoneNumberWhereInput {
 
  */
 export interface Node {
-  id: ID_Output;
+  id: ID_Output
 }
 
 export interface AggregatePhoneNumber {
-  count: Int;
+  count: Int
 }
 
 export interface PhoneNumber {
-  hashedPhoneNumber: String;
-  address: String;
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  hashedPhoneNumber: String
+  address: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 export interface PhoneNumberPreviousValues {
-  hashedPhoneNumber: String;
-  address: String;
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  hashedPhoneNumber: String
+  address: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 export interface PhoneNumberSubscriptionPayload {
-  mutation: MutationType;
-  node?: PhoneNumber;
-  updatedFields?: String[];
-  previousValues?: PhoneNumberPreviousValues;
+  mutation: MutationType
+  node?: PhoneNumber
+  updatedFields?: String[]
+  previousValues?: PhoneNumberPreviousValues
 }
 
 /*
@@ -566,8 +487,8 @@ export interface PhoneNumberSubscriptionPayload {
 
  */
 export interface PhoneNumberEdge {
-  node: PhoneNumber;
-  cursor: String;
+  node: PhoneNumber
+  cursor: String
 }
 
 /*
@@ -575,9 +496,9 @@ export interface PhoneNumberEdge {
 
  */
 export interface PhoneNumberConnection {
-  pageInfo: PageInfo;
-  edges: PhoneNumberEdge[];
-  aggregate: AggregatePhoneNumber;
+  pageInfo: PageInfo
+  edges: PhoneNumberEdge[]
+  aggregate: AggregatePhoneNumber
 }
 
 /*
@@ -585,41 +506,41 @@ export interface PhoneNumberConnection {
 
  */
 export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor?: String
+  endCursor?: String
 }
 
 export interface BatchPayload {
-  count: Long;
+  count: Long
 }
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
 */
-export type Boolean = boolean;
+export type Boolean = boolean
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
-export type String = string;
+export type String = string
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type ID_Input = string | number;
-export type ID_Output = string;
+export type ID_Input = string | number
+export type ID_Output = string
 
-export type DateTime = Date | string;
+export type DateTime = Date | string
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type Int = number;
+export type Int = number
 
 /*
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 */
-export type Long = string;
+export type Long = string
