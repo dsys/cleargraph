@@ -48,7 +48,9 @@ type EthereumAddress {
   network: ETHEREUM_NETWORK!
   hash: String!
   balance: String!
+
   transactionCount: Int!
+  transactions(startBlock: Int, endBlock: Int, page: Int, offset: Int): [EthereumTransaction!]
 }
 
 type EthereumTransaction {
