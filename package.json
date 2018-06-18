@@ -23,6 +23,7 @@
     "docker:run": "docker run -it dsys/multi-api:latest"
   },
   "dependencies": {
+    "bignumber.js": "^7.2.1",
     "bluebird": "^3.5.1",
     "dataloader": "^1.4.0",
     "eth-ens-namehash": "^2.0.8",

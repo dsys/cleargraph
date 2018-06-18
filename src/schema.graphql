@@ -1,5 +1,6 @@
 # import PhoneNumber from "./generated/prisma.graphql"
 
+scalar BigNumber
 scalar HexValue
 scalar EthereumAddressHexValue
 scalar EthereumBlockHashHexValue
@@ -15,8 +16,9 @@ enum ETHEREUM_NETWORK {
 type Query {
   phoneNumber(hashedPhoneNumber: String!): PhoneNumber
 
-  ethereumGasPrice(network: ETHEREUM_NETWORK): String!
-  ethereumBlockNumber(network: ETHEREUM_NETWORK): Int!
+  ethereumGasPrice(network: ETHEREUM_NETWORK): EthereumValue
+
+  ethereumBlockNumber(network: ETHEREUM_NETWORK): Int
 
   ethereumBlock(
     hash: EthereumBlockHashHexValue
@@ -52,7 +54,7 @@ type Ack {
 type EthereumAddress {
   network: ETHEREUM_NETWORK!
   hash: EthereumAddressHexValue!
-  balance: String!
+  balance: EthereumValue!
 
   transactionCount: Int!
   transactions(
@@ -71,9 +73,9 @@ type EthereumTransaction {
   transactionIndex: Int!
   from: EthereumAddress
   to: EthereumAddress
-  value: String!
+  value: EthereumValue
   gas: Int!
-  gasPrice: String!
+  gasPrice: EthereumValue
   input: String!
 }
 
@@ -109,7 +111,36 @@ type PhoneNumber {
   ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
 }
 
-type StartPhoneNumberVerificationInput {
+type EthereumValue {
+  Gwei: BigNumber!
+  Kwei: BigNumber!
+  Mwei: BigNumber!
+  babbage: BigNumber!
+  ether: BigNumber!
+  femtoether: BigNumber!
+  finney: BigNumber!
+  gether: BigNumber!
+  grand: BigNumber!
+  gwei: BigNumber!
+  kether: BigNumber!
+  kwei: BigNumber!
+  lovelace: BigNumber!
+  mether: BigNumber!
+  micro: BigNumber!
+  microether: BigNumber!
+  milli: BigNumber!
+  milliether: BigNumber!
+  mwei: BigNumber!
+  nano: BigNumber!
+  nanoether: BigNumber!
+  picoether: BigNumber!
+  shannon: BigNumber!
+  szabo: BigNumber!
+  tether: BigNumber!
+  wei: BigNumber!
+}
+
+input StartPhoneNumberVerificationInput {
   phoneNumber: String!
 }
 
