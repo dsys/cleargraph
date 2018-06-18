@@ -5,7 +5,8 @@ import {
   web3,
   Web3Address,
   Web3Block,
-  Web3Transaction
+  Web3Transaction,
+  Web3TransactionReceipt
 } from "./client";
 
 export interface Web3HashRequest {
@@ -70,6 +71,20 @@ export function createWeb3Loaders() {
           return web3[network].eth.getTransactionCount(hash);
         })
       );
-    })
+    }),
+    transactionReceipt: new DataLoader<Web3HashRequest, Web3TransactionReceipt>(
+      inputs => {
+        return Promise.all(
+          inputs.map(async ({ hash, network }) => {
+            const receipt = await web3[network].eth.getTransactionReceipt(hash);
+            if (!receipt) {
+              return null;
+            }
+            receipt.network = network;
+            return receipt;
+          })
+        );
+      }
+    )
   };
 }

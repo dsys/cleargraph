@@ -27,5 +27,50 @@ export const EthereumTransaction = {
       hash: parent.to,
       network: parent.network
     });
+  },
+  async gasUsed(parent: Web3Transaction, args, ctx: Context, info) {
+    const receipt = await ctx.loaders.web3.transactionReceipt.load({
+      hash: parent.hash,
+      network: parent.network
+    });
+
+    return receipt ? receipt.gasUsed : null;
+  },
+  async cumulativeGasUsed(parent: Web3Transaction, args, ctx: Context, info) {
+    const receipt = await ctx.loaders.web3.transactionReceipt.load({
+      hash: parent.hash,
+      network: parent.network
+    });
+
+    return receipt ? receipt.cumulativeGasUsed : null;
+  },
+  async contractAddress(parent: Web3Transaction, args, ctx: Context, info) {
+    const receipt = await ctx.loaders.web3.transactionReceipt.load({
+      hash: parent.hash,
+      network: parent.network
+    });
+
+    return receipt && receipt.contractAddress
+      ? {
+          hash: receipt.contractAddress,
+          network: parent.network
+        }
+      : null;
+  },
+  async status(parent: Web3Transaction, args, ctx: Context, info) {
+    const receipt = await ctx.loaders.web3.transactionReceipt.load({
+      hash: parent.hash,
+      network: parent.network
+    });
+
+    return receipt ? receipt.status : null;
+  },
+  async logs(parent: Web3Transaction, args, ctx: Context) {
+    const receipt = await ctx.loaders.web3.transactionReceipt.load({
+      hash: parent.hash,
+      network: parent.network
+    });
+
+    return receipt ? receipt.logs : [];
   }
 };
