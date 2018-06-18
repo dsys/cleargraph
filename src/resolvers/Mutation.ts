@@ -4,70 +4,80 @@ import {
   generatePhoneNumberHash,
   startPhoneNumberVerification
 } from "../phone";
-import { isValidEthereumAddress } from "../web3/address";
 import { web3 } from "../web3/client";
 
 export const Mutation = {
   async startPhoneNumberVerification(
     parent,
-    args: { phoneNumber: string },
+    { input }: { input: { phoneNumber: string } },
     ctx: Context
   ) {
-    await startPhoneNumberVerification(args.phoneNumber);
+    await startPhoneNumberVerification(input.phoneNumber);
     return { ok: true };
   },
   async updatePhoneNumber(
     parent,
-    args: {
-      phoneNumber: string;
-      verificationCode: string;
-      address: string;
+    {
+      input
+    }: {
+      input: {
+        phoneNumber: string;
+        verificationCode: string;
+        address: string;
+      };
     },
     ctx: Context,
     info
   ) {
-    if (!isValidEthereumAddress(args.address)) {
-      // TODO: Move this validation to a scalar type.
-      throw new Error("invalid Ethereum address");
-    }
-
     await checkPhoneNumberVerificationCode(
-      args.phoneNumber,
-      args.verificationCode
+      input.phoneNumber,
+      input.verificationCode
     );
 
-    const hashedPhoneNumber = generatePhoneNumberHash(args.phoneNumber);
-    return ctx.db.mutation.upsertPhoneNumber(
-      {
-        create: { hashedPhoneNumber, address: args.address },
-        update: { address: args.address },
-        where: { hashedPhoneNumber }
-      },
-      info
-    );
+    const hashedPhoneNumber = generatePhoneNumberHash(input.phoneNumber);
+    return {
+      phoneNumber: ctx.db.mutation.upsertPhoneNumber(
+        {
+          create: { hashedPhoneNumber, address: input.address },
+          update: { address: input.address },
+          where: { hashedPhoneNumber }
+        },
+        // TODO: what do I do with this?
+        info
+      )
+    };
   },
   async deletePhoneNumber(
     parent,
-    args: {
-      phoneNumber: string;
-      verificationCode: string;
+    {
+      input
+    }: {
+      input: {
+        phoneNumber: string;
+        verificationCode: string;
+      };
     },
     ctx: Context
   ) {
     await checkPhoneNumberVerificationCode(
-      args.phoneNumber,
-      args.verificationCode
+      input.phoneNumber,
+      input.verificationCode
     );
 
-    const hashedPhoneNumber = generatePhoneNumberHash(args.phoneNumber);
+    const hashedPhoneNumber = generatePhoneNumberHash(input.phoneNumber);
     await ctx.db.mutation.deletePhoneNumber({
       where: { hashedPhoneNumber }
     });
 
     return { ok: true };
   },
-  async sendRawTransaction(parent, args, ctx) {
-    const hash = await web3[args.network].eth.sendRawTransaction(args);
-    return { hash, network: args.network };
+  async sendRawEthereumTransaction(parent, { input }, ctx) {
+    const hash = await web3[input.network].eth.sendRawTransaction(input);
+    return {
+      transaction: ctx.loaders.web3.transaction.load({
+        hash,
+        network: input.network
+      })
+    };
   }
 };

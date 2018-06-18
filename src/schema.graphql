@@ -36,20 +36,13 @@ type Query {
 }
 
 type Mutation {
-  startPhoneNumberVerification(phoneNumber: String!): Ack
+  startPhoneNumberVerification(input: StartPhoneNumberVerificationInput!): Ack
+  updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
+  deletePhoneNumber(input: DeletePhoneNumberInput!): Ack
 
-  updatePhoneNumber(
-    phoneNumber: String!
-    verificationCode: String!
-    address: String!
-  ): PhoneNumber
-
-  deletePhoneNumber(phoneNumber: String!, verificationCode: String!): Ack
-
-  sendRawTransaction(
-    data: String!
-    network: ETHEREUM_NETWORK
-  ): EthereumTransaction
+  sendRawEthereumTransaction(
+    input: SendRawEthereumTransactionInput!
+  ): SendRawEthereumTransactionPayload
 }
 
 type Ack {
@@ -114,4 +107,32 @@ type PhoneNumber {
   updatedAt: DateTime!
 
   ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
+}
+
+type StartPhoneNumberVerificationInput {
+  phoneNumber: String!
+}
+
+input UpdatePhoneNumberInput {
+  phoneNumber: String!
+  verificationCode: String!
+  address: String!
+}
+
+type UpdatePhoneNumberPayload {
+  phoneNumber: PhoneNumber
+}
+
+input DeletePhoneNumberInput {
+  phoneNumber: String!
+  verificationCode: String!
+}
+
+input SendRawEthereumTransactionInput {
+  data: String!
+  network: ETHEREUM_NETWORK
+}
+
+type SendRawEthereumTransactionPayload {
+  ethereumTransaction: EthereumTransaction
 }
