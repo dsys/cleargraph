@@ -68,15 +68,22 @@ type EthereumAddress {
 type EthereumTransaction {
   network: ETHEREUM_NETWORK!
   hash: EthereumTransactionHashHexValue!
-  nonce: Int!
+  nonce: Int
   block: EthereumBlock
-  transactionIndex: Int!
+  transactionIndex: Int
   from: EthereumAddress
   to: EthereumAddress
   value: EthereumValue
-  gas: Int!
+  gas: Int
   gasPrice: EthereumValue
-  input: String!
+  input: HexValue
+
+  gasUsed: Int
+  cumulativeGasUsed: Int
+  contractAddress: EthereumAddress
+  status: Boolean
+
+  logs: [EthereumLog!]!
 }
 
 type EthereumBlock {
@@ -84,22 +91,31 @@ type EthereumBlock {
   hash: EthereumBlockHashHexValue!
   number: Int!
   parent: EthereumBlock
-  nonce: String!
-  sha3Uncles: String!
-  logsBloom: String!
-  transactionsRoot: String!
-  stateRoot: String!
+  nonce: HexValue
+  sha3Uncles: String
+  logsBloom: HexValue
+  transactionsRoot: String
+  stateRoot: String
   miner: EthereumAddress!
-  difficulty: String!
-  totalDifficulty: String!
-  size: Int!
-  extraData: String!
-  gasLimit: Int!
-  gasUsed: Int!
-  timestamp: Int!
+  difficulty: BigNumber
+  totalDifficulty: BigNumber
+  size: Int
+  extraData: HexValue
+  gasLimit: Int
+  gasUsed: Int
+  timestamp: Int
   transactions: [EthereumTransaction!]!
   transactionCount: Int!
   uncles: [EthereumBlock!]!
+}
+
+type EthereumLog {
+  id: String
+  address: EthereumAddress
+  topics: [HexValue!]!
+  data: HexValue
+  logIndex: Int
+  removed: Boolean
 }
 
 type PhoneNumber {

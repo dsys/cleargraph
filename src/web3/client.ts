@@ -37,9 +37,25 @@ export interface Web3Block {
   uncles: string[];
 }
 
+export interface Web3Log {
+  address: string;
+  network: EthereumNetwork;
+  topics: string[];
+}
+
 export interface Web3Transaction {
   network: EthereumNetwork;
+  hash: string;
   blockHash: string;
   from: string;
   to: string;
+}
+
+export interface Web3TransactionReceipt {
+  network: EthereumNetwork;
+  gasUsed: number;
+  contractAddress?: string;
+  cumulativeGasUsed: number;
+  status: boolean;
+  logs: Web3Log[];
 }
