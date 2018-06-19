@@ -42,8 +42,13 @@ export const Mutation = {
           update: { address: input.address },
           where: { hashedPhoneNumber }
         },
-        // TODO: what do I do with this?
-        info
+        // a bit of a hack since I'm not sure what to do with info here
+        `{
+          hashedPhoneNumber
+          address
+          createdAt
+          updatedAt
+        }`
       )
     };
   },

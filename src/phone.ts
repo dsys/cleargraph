@@ -20,6 +20,9 @@ const MAX_ATTEMPTS = 5;
 const REQUEST_TIMEOUT = 5 * 1000;
 const DEFAULT_COUNTRY_CODE = "US";
 
+const GLOBAL_PHONE_NUMBER_SALT = process.env.GLOBAL_PHONE_NUMBER_SALT || "";
+const TRUNCATE_BYTES = 16;
+
 export function normalizePhoneNumber(phoneNumber: string): string {
   const parsed = parsePhoneNumber(phoneNumber, DEFAULT_COUNTRY_CODE);
   return parsed.country ? formatPhoneNumber(parsed, "E.164") : null;
@@ -102,6 +105,6 @@ export async function checkPhoneNumberVerificationCode(
 
 export function generatePhoneNumberHash(phoneNumber: string): string {
   const hash = crypto.createHash("sha256");
-  hash.update(normalizePhoneNumber(phoneNumber));
-  return hash.digest("hex");
+  hash.update(normalizePhoneNumber(phoneNumber) + GLOBAL_PHONE_NUMBER_SALT);
+  return hash.digest("hex").substring(0, TRUNCATE_BYTES);
 }
