@@ -26,5 +26,13 @@ export const Query = {
 
   ethereumTransaction(parent, { hash, network = "MAINNET" }, ctx: Context) {
     return ctx.loaders.web3.transaction.load({ hash, network });
+  },
+
+  ethereumContract(parent, args, ctx: Context) {
+    return ctx.loaders.web3.contract.load({
+      hash: args.hash,
+      interface: args.interface,
+      network: args.network || "MAINNET"
+    });
   }
 };

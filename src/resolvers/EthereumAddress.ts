@@ -22,5 +22,12 @@ export const EthereumAddress = {
         network: parent.network
       }))
     );
+  },
+  contract(parent: Web3Address, args, ctx: Context) {
+    return ctx.loaders.web3.contract.load({
+      hash: parent.hash,
+      interface: args.interface,
+      network: parent.network
+    });
   }
 };

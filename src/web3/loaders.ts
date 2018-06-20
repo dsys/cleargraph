@@ -8,6 +8,10 @@ import {
   Web3Transaction,
   Web3TransactionReceipt
 } from "./client";
+import {
+  ETHEREUM_CONTRACT_STANDARD_ABIS,
+  EthereumContractStandard
+} from "./standards";
 
 export interface Web3HashRequest {
   hash: string;
@@ -18,6 +22,15 @@ export interface Web3BlockRequest {
   hash?: string;
   number?: number;
   network: EthereumNetwork;
+}
+
+export interface Web3ContractRequest {
+  hash: string;
+  network: EthereumNetwork;
+  interface: {
+    standards: EthereumContractStandard[];
+    inline: any[];
+  };
 }
 
 export function createWeb3Loaders() {
@@ -52,6 +65,30 @@ export function createWeb3Loaders() {
           })
         );
       }
+    ),
+    contract: new DataLoader<Web3ContractRequest, any>(async inputs =>
+      inputs.map(input => {
+        try {
+          let jsonInterface = input.interface.inline || [];
+          if (input.interface.standards) {
+            for (const standard of input.interface.standards) {
+              jsonInterface = jsonInterface.concat(
+                ETHEREUM_CONTRACT_STANDARD_ABIS[standard]
+              );
+            }
+          }
+
+          const contract = new web3[input.network].eth.Contract(
+            jsonInterface,
+            input.hash
+          );
+
+          contract.network = input.network;
+          return contract;
+        } catch (err) {
+          return new Error("invalid contract ABI");
+        }
+      })
     ),
     transaction: new DataLoader<Web3HashRequest, Web3Transaction>(inputs => {
       return Promise.all(

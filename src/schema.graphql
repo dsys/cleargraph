@@ -1,5 +1,6 @@
 # import PhoneNumber from "./generated/prisma.graphql"
 
+scalar JSON
 scalar BigNumber
 scalar HexValue
 scalar EthereumAddressHexValue
@@ -11,6 +12,12 @@ enum ETHEREUM_NETWORK {
   ROPSTEN
   KOVAN
   RINKEBY
+}
+
+enum ETHEREUM_CONTRACT_STANDARD {
+  ERC_20
+  ERC_721
+  ERC_725
 }
 
 type Query {
@@ -35,6 +42,12 @@ type Query {
     hash: EthereumAddressHexValue!
     network: ETHEREUM_NETWORK
   ): EthereumAddress
+
+  ethereumContract(
+    hash: EthereumAddressHexValue!
+    network: ETHEREUM_NETWORK
+    interface: EthereumContractInterfaceInput!
+  ): EthereumContract
 }
 
 type Mutation {
@@ -63,6 +76,8 @@ type EthereumAddress {
     page: Int
     offset: Int
   ): [EthereumTransaction!]
+
+  contract(interface: EthereumContractInterfaceInput!): EthereumContract
 }
 
 type EthereumTransaction {
@@ -118,13 +133,13 @@ type EthereumLog {
   removed: Boolean
 }
 
-type PhoneNumber {
-  hashedPhoneNumber: String!
-  address: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+type EthereumContract {
+  address: EthereumAddress!
+  method(signature: String!): EthereumContractMethod
+}
 
-  ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
+type EthereumContractMethod {
+  call(inputs: [JSON]): JSON
 }
 
 type EthereumValue {
@@ -156,6 +171,15 @@ type EthereumValue {
   wei: BigNumber!
 }
 
+type PhoneNumber {
+  hashedPhoneNumber: String!
+  address: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  ethereumAddress(network: ETHEREUM_NETWORK): EthereumAddress
+}
+
 input StartPhoneNumberVerificationInput {
   phoneNumber: String!
 }
@@ -182,4 +206,26 @@ input SendRawEthereumTransactionInput {
 
 type SendRawEthereumTransactionPayload {
   ethereumTransaction: EthereumTransaction
+}
+
+input EthereumContractInterfaceInput {
+  standards: [ETHEREUM_CONTRACT_STANDARD!]
+  inline: [EthereumContractInterfaceInlineInput!]
+}
+
+input EthereumContractInterfaceInlineInput {
+  name: String!
+  type: String
+  inputs: [EthereumContractInterfaceInlineParameterInput!]
+  outputs: [EthereumContractInterfaceInlineParameterInput!]
+  payable: Boolean
+  stateMutability: String
+  constant: Boolean
+}
+
+input EthereumContractInterfaceInlineParameterInput {
+  name: String!
+  type: String!
+  components: [EthereumContractInterfaceInlineParameterInput!]
+  indexed: Boolean
 }
