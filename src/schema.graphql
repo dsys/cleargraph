@@ -47,7 +47,13 @@ type Query {
     hash: EthereumAddressHexValue!
     network: ETHEREUM_NETWORK
     interface: EthereumContractInterfaceInput!
-  ): EthereumContract
+  ): EthereumGenericContract
+
+  ethereumTokenContract(
+    hash: EthereumAddressHexValue!
+    network: ETHEREUM_NETWORK
+    interface: EthereumContractInterfaceInput
+  ): EthereumTokenContract
 }
 
 type Mutation {
@@ -77,7 +83,10 @@ type EthereumAddress {
     offset: Int
   ): [EthereumTransaction!]
 
-  contract(interface: EthereumContractInterfaceInput!): EthereumContract
+  contract(interface: EthereumContractInterfaceInput!): EthereumGenericContract
+  tokenContract(
+    interface: EthereumContractInterfaceInput
+  ): EthereumTokenContract
 }
 
 type EthereumTransaction {
@@ -133,9 +142,31 @@ type EthereumLog {
   removed: Boolean
 }
 
-type EthereumContract {
+interface EthereumContract {
   address: EthereumAddress!
   method(signature: String!): EthereumContractMethod
+}
+
+type EthereumGenericContract implements EthereumContract {
+  address: EthereumAddress!
+  method(signature: String!): EthereumContractMethod
+}
+
+type EthereumTokenContract implements EthereumContract {
+  address: EthereumAddress!
+  method(signature: String!): EthereumContractMethod
+
+  name: String
+  symbol: String
+  decimals: Int
+  totalSupply: BigNumber
+  balance(owner: EthereumAddressHexValue!): BigNumber
+  rawBalance(owner: EthereumAddressHexValue!): BigNumber
+  owner(tokenId: BigNumber!): EthereumAddress
+  allowance(
+    owner: EthereumAddressHexValue!
+    spender: EthereumAddressHexValue!
+  ): BigNumber
 }
 
 type EthereumContractMethod {

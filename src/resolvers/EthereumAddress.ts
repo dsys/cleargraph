@@ -29,5 +29,17 @@ export const EthereumAddress = {
       interface: args.interface,
       network: parent.network
     });
+  },
+  tokenContract(parent, args, ctx: Context) {
+    const iface = args.interface || {};
+    iface.standards = iface.standards || [];
+    iface.standards.push("ERC_20");
+    iface.standards.push("ERC_721");
+
+    return ctx.loaders.web3.contract.load({
+      hash: parent.hash,
+      interface: iface,
+      network: parent.network || "MAINNET"
+    });
   }
 };

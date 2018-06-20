@@ -1,7 +1,11 @@
+import { callMethodSafe } from "../web3/contracts";
+
 export const EthereumContractMethod = {
-  async call(parent, args) {
-    return parent.contract.methods[parent.methodSignature](
-      ...(args.inputs || [])
-    ).call();
+  call(parent, args) {
+    return callMethodSafe(
+      parent.contract,
+      parent.methodSignature,
+      args.inputs || []
+    );
   }
 };

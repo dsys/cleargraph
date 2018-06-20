@@ -34,5 +34,18 @@ export const Query = {
       interface: args.interface,
       network: args.network || "MAINNET"
     });
+  },
+
+  ethereumTokenContract(parent, args, ctx: Context) {
+    const iface = args.interface || {};
+    iface.standards = iface.standards || [];
+    iface.standards.push("ERC_20");
+    iface.standards.push("ERC_721");
+
+    return ctx.loaders.web3.contract.load({
+      hash: args.hash,
+      interface: iface,
+      network: args.network || "MAINNET"
+    });
   }
 };

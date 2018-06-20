@@ -1,6 +1,6 @@
 import { Context } from "../context";
 
-export const EthereumContract = {
+export const EthereumGenericContract = {
   address(parent) {
     return { hash: parent._address, network: parent.network };
   },
