@@ -41,5 +41,16 @@ export const EthereumAddress = {
       interface: iface,
       network: parent.network || "MAINNET"
     });
+  },
+  identityContract(parent, args, ctx: Context) {
+    const iface = args.interface || {};
+    iface.standards = iface.standards || [];
+    iface.standards.push("ERC_725");
+
+    return ctx.loaders.web3.contract.load({
+      hash: parent.hash,
+      interface: iface,
+      network: parent.network || "MAINNET"
+    });
   }
 };

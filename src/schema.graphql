@@ -84,9 +84,14 @@ type EthereumAddress {
   ): [EthereumTransaction!]
 
   contract(interface: EthereumContractInterfaceInput!): EthereumGenericContract
+
   tokenContract(
     interface: EthereumContractInterfaceInput
   ): EthereumTokenContract
+
+  identityContract(
+    interface: EthereumContractInterfaceInput
+  ): EthereumIdentityContract
 }
 
 type EthereumTransaction {
@@ -171,6 +176,20 @@ type EthereumTokenContract implements EthereumContract {
 
 type EthereumContractMethod {
   call(inputs: [JSON]): JSON
+}
+
+type EthereumIdentityContract implements EthereumContract {
+  address: EthereumAddress!
+  method(signature: String!): EthereumContractMethod
+
+  key(key: HexValue!): EthereumIdentityContractKey
+  keyByPurpose(purpose: BigNumber!): [EthereumIdentityContractKey]
+}
+
+type EthereumIdentityContractKey {
+  key: HexValue!
+  keyType: BigNumber!
+  purposes: [BigNumber!]!
 }
 
 type EthereumValue {
