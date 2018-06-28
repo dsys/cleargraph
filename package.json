@@ -23,6 +23,7 @@
     "docker:run": "docker run -it dsys/cleargraph:latest"
   },
   "dependencies": {
+    "apollo-engine": "^1.1.2",
     "bignumber.js": "^7.2.1",
     "bluebird": "^3.5.1",
     "dataloader": "^1.4.0",
