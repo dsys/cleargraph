@@ -1,9 +1,26 @@
+import { BigNumber } from "bignumber.js";
 import { EthereumNetwork, web3 } from "../web3/client";
 
 const fromWei = web3.MAINNET.utils.fromWei;
 
 // don't repeat yourse... ah screw it.
 export const EthereumValue = {
+  display(v) {
+    const n = new BigNumber(v);
+    if (n.isGreaterThan("50000000000000000")) {
+      return n.dividedBy("1000000000000000000").toFixed(3) + " ETH";
+    } else if (n.isGreaterThan("50000000000000")) {
+      return n.dividedBy("1000000000000000").toFixed(3) + " mETH";
+    } else if (n.isGreaterThan("50000000000")) {
+      return n.dividedBy("1000000000000").toFixed(3) + " nETH";
+    } else if (n.isGreaterThan("50000000")) {
+      return n.dividedBy("1000000000").toFixed(3) + " Gwei";
+    } else if (n.isGreaterThan("50000")) {
+      return n.dividedBy("1000000").toFixed(3) + " Kwei";
+    } else {
+      return n.toString() + " wei";
+    }
+  },
   Gwei: v => fromWei(v, "Gwei"),
   Kwei: v => fromWei(v, "Kwei"),
   Mwei: v => fromWei(v, "Mwei"),

@@ -1,3 +1,4 @@
+import { BigNumber } from "bignumber.js";
 import { Context } from "../context";
 import { web3 } from "../web3/client";
 
@@ -6,6 +7,10 @@ export const Query = {
     return ctx.db.query.phoneNumber({
       where: { hashedPhoneNumber: hashedPhoneNumber.toLowerCase() }
     });
+  },
+
+  ethereumValue(parent, args: { value: string; unit: string }) {
+    return web3.MAINNET.utils.toWei(args.value.toString(), args.unit || "wei");
   },
 
   ethereumGasPrice(parent, { network = "MAINNET" }) {

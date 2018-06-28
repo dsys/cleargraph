@@ -14,6 +14,31 @@ enum ETHEREUM_NETWORK {
   RINKEBY
 }
 
+enum ETHEREUM_UNIT {
+  BABBAGE
+  ETHER
+  FEMTOETHER
+  FINNEY
+  GETHER
+  GRAND
+  GWEI
+  KETHER
+  KWEI
+  LOVELACE
+  METHER
+  MICRO
+  MICROETHER
+  MILLI
+  MILLIETHER
+  NANO
+  NANOETHER
+  PICOETHER
+  SHANNON
+  SZABO
+  TETHER
+  WEI
+}
+
 enum ETHEREUM_CONTRACT_STANDARD {
   ERC_20
   ERC_721
@@ -23,6 +48,7 @@ enum ETHEREUM_CONTRACT_STANDARD {
 type Query {
   phoneNumber(hashedPhoneNumber: String!): PhoneNumber
 
+  ethereumValue(value: BigNumber!, unit: ETHEREUM_UNIT): EthereumValue
   ethereumGasPrice(network: ETHEREUM_NETWORK): EthereumValue
 
   ethereumBlockNumber(network: ETHEREUM_NETWORK): Int
@@ -201,6 +227,8 @@ type EthereumIdentityContractKey {
 }
 
 type EthereumValue {
+  display: String!
+
   Gwei: BigNumber!
   Kwei: BigNumber!
   Mwei: BigNumber!
