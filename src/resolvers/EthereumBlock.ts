@@ -10,7 +10,7 @@ export const EthereumBlock = {
   },
   miner(parent: Web3Block, args, ctx: Context) {
     return ctx.loaders.web3.address.load({
-      hash: parent.miner,
+      address: parent.miner,
       network: parent.network
     });
   },

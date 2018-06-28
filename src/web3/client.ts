@@ -25,7 +25,8 @@ for (const network in EthereumNetwork) {
 }
 
 export interface Web3Address {
-  hash: string;
+  display?: string;
+  address: string;
   network: EthereumNetwork;
 }
 

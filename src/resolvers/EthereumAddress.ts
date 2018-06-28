@@ -3,6 +3,12 @@ import { web3, Web3Address } from "../web3/client";
 import { fetchTransactions } from "../web3/etherscan";
 
 export const EthereumAddress = {
+  display(parent: Web3Address) {
+    return parent.display || parent.address;
+  },
+  hex(parent: Web3Address) {
+    return parent.address;
+  },
   balance(parent: Web3Address, args, ctx: Context) {
     return ctx.loaders.web3.balance.load(parent);
   },
@@ -11,7 +17,7 @@ export const EthereumAddress = {
   },
   async transactions(parent: Web3Address, args, ctx: Context) {
     const txs = await fetchTransactions({
-      hash: parent.hash,
+      address: parent.address,
       network: parent.network,
       ...args
     });
@@ -25,7 +31,7 @@ export const EthereumAddress = {
   },
   contract(parent: Web3Address, args, ctx: Context) {
     return ctx.loaders.web3.contract.load({
-      hash: parent.hash,
+      address: parent.address,
       interface: args.interface,
       network: parent.network
     });
@@ -37,7 +43,7 @@ export const EthereumAddress = {
     iface.standards.push("ERC_721");
 
     return ctx.loaders.web3.contract.load({
-      hash: parent.hash,
+      address: parent.address,
       interface: iface,
       network: parent.network || "MAINNET"
     });
@@ -48,7 +54,7 @@ export const EthereumAddress = {
     iface.standards.push("ERC_725");
 
     return ctx.loaders.web3.contract.load({
-      hash: parent.hash,
+      address: parent.address,
       interface: iface,
       network: parent.network || "MAINNET"
     });

@@ -6,12 +6,16 @@ export function isValidEthereumAddress(address: string): boolean {
 }
 
 export async function resolveEthereumAddress(req): Promise<Web3Address | null> {
-  const hash = req.hash.toLowerCase();
+  if (!req.address) {
+    return null;
+  }
+
+  const address = req.address.toLowerCase();
   const network = req.network || EthereumNetwork.MAINNET;
-  if (hash.endsWith(".eth")) {
-    return resolveENSAddress(network, hash);
-  } else if (isValidEthereumAddress(hash)) {
-    return { hash, network };
+  if (address.endsWith(".eth")) {
+    return resolveENSAddress(network, address);
+  } else if (isValidEthereumAddress(address)) {
+    return { display: address, address, network };
   } else {
     return null;
   }

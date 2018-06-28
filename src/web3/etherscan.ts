@@ -13,14 +13,14 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
 export async function fetchTransactions({
   network,
-  hash,
+  address,
   startBlock,
   endBlock,
   page,
   offset
 }: {
   network: EthereumNetwork;
-  hash: string;
+  address: string;
   startBlock: number;
   endBlock: number;
   page: number;
@@ -29,7 +29,7 @@ export async function fetchTransactions({
   const baseURL = ETHERSCAN_API_BASE_URLS[network];
   const q = qs.stringify({
     action: "txlist",
-    address: hash,
+    address,
     apikey: ETHERSCAN_API_KEY,
     endblock: endBlock,
     module: "account",

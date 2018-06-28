@@ -5,7 +5,7 @@ import { callMethodSafe } from "../web3/contracts";
 export const EthereumIdentityContract = {
   address(parent, args, ctx: Context) {
     return ctx.loaders.web3.address.load({
-      hash: parent._address,
+      address: parent._address,
       network: parent.network
     });
   },

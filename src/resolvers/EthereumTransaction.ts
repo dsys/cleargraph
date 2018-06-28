@@ -14,7 +14,7 @@ export const EthereumTransaction = {
     }
 
     return ctx.loaders.web3.address.load({
-      hash: parent.from,
+      address: parent.from,
       network: parent.network
     });
   },
@@ -24,7 +24,7 @@ export const EthereumTransaction = {
     }
 
     return ctx.loaders.web3.address.load({
-      hash: parent.to,
+      address: parent.to,
       network: parent.network
     });
   },
@@ -51,10 +51,10 @@ export const EthereumTransaction = {
     });
 
     return receipt && receipt.contractAddress
-      ? {
-          hash: receipt.contractAddress,
+      ? ctx.loaders.web3.address.load({
+          address: receipt.contractAddress,
           network: parent.network
-        }
+        })
       : null;
   },
   async status(parent: Web3Transaction, args, ctx: Context, info) {

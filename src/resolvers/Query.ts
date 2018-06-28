@@ -16,8 +16,8 @@ export const Query = {
     return web3[network].eth.getBlockNumber();
   },
 
-  ethereumAddress(parent, { hash, network = "MAINNET" }, ctx: Context) {
-    return ctx.loaders.web3.address.load({ hash, network });
+  ethereumAddress(parent, { address, network = "MAINNET" }, ctx: Context) {
+    return ctx.loaders.web3.address.load({ address, network });
   },
 
   ethereumBlock(parent, { hash, network = "MAINNET" }, ctx: Context) {
@@ -30,7 +30,7 @@ export const Query = {
 
   ethereumContract(parent, args, ctx: Context) {
     return ctx.loaders.web3.contract.load({
-      hash: args.hash,
+      address: args.address,
       interface: args.interface,
       network: args.network || "MAINNET"
     });
@@ -43,7 +43,19 @@ export const Query = {
     iface.standards.push("ERC_721");
 
     return ctx.loaders.web3.contract.load({
-      hash: args.hash,
+      address: args.address,
+      interface: iface,
+      network: args.network || "MAINNET"
+    });
+  },
+
+  ethereumIdentityContract(parent, args, ctx: Context) {
+    const iface = args.interface || {};
+    iface.standards = iface.standards || [];
+    iface.standards.push("ERC_725");
+
+    return ctx.loaders.web3.contract.load({
+      address: args.address,
       interface: iface,
       network: args.network || "MAINNET"
     });

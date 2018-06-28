@@ -37,5 +37,5 @@ export async function resolveENSAddress(network, host) {
   );
 
   const addr = await resolverContract.methods.addr(nh).call();
-  return { hash: addr.toLowerCase(), network };
+  return { display: host, address: addr.toLowerCase(), network };
 }

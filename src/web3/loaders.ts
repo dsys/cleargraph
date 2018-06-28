@@ -18,6 +18,11 @@ export interface Web3HashRequest {
   network: EthereumNetwork;
 }
 
+export interface Web3AddressRequest {
+  address: string;
+  network: EthereumNetwork;
+}
+
 export interface Web3BlockRequest {
   hash?: string;
   number?: number;
@@ -25,7 +30,7 @@ export interface Web3BlockRequest {
 }
 
 export interface Web3ContractRequest {
-  hash: string;
+  address: string;
   network: EthereumNetwork;
   interface: {
     standards: EthereumContractStandard[];
@@ -35,13 +40,13 @@ export interface Web3ContractRequest {
 
 export function createWeb3Loaders() {
   return {
-    address: new DataLoader<Web3HashRequest, Web3Address | null>(inputs => {
+    address: new DataLoader<Web3AddressRequest, Web3Address | null>(inputs => {
       return Promise.all(inputs.map(resolveEthereumAddress));
     }),
-    balance: new DataLoader<Web3HashRequest, number | null>(inputs => {
+    balance: new DataLoader<Web3AddressRequest, number | null>(inputs => {
       return Promise.all(
-        inputs.map(({ hash, network }) => {
-          return web3[network].eth.getBalance(hash);
+        inputs.map(({ address, network }) => {
+          return web3[network].eth.getBalance(address);
         })
       );
     }),
@@ -80,7 +85,7 @@ export function createWeb3Loaders() {
 
           const contract = new web3[input.network].eth.Contract(
             jsonInterface,
-            input.hash
+            input.address
           );
 
           contract.network = input.network;
@@ -102,13 +107,15 @@ export function createWeb3Loaders() {
         })
       );
     }),
-    transactionCount: new DataLoader<Web3HashRequest, number | null>(inputs => {
-      return Promise.all(
-        inputs.map(async ({ hash, network }) => {
-          return web3[network].eth.getTransactionCount(hash);
-        })
-      );
-    }),
+    transactionCount: new DataLoader<Web3AddressRequest, number | null>(
+      inputs => {
+        return Promise.all(
+          inputs.map(async ({ address, network }) => {
+            return web3[network].eth.getTransactionCount(address);
+          })
+        );
+      }
+    ),
     transactionReceipt: new DataLoader<Web3HashRequest, Web3TransactionReceipt>(
       inputs => {
         return Promise.all(

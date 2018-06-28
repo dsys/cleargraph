@@ -39,21 +39,27 @@ type Query {
   ): EthereumTransaction
 
   ethereumAddress(
-    hash: EthereumAddressString!
+    address: EthereumAddressString!
     network: ETHEREUM_NETWORK
   ): EthereumAddress
 
   ethereumContract(
-    hash: EthereumAddressString!
+    address: EthereumAddressString!
     network: ETHEREUM_NETWORK
     interface: EthereumContractInterfaceInput!
   ): EthereumGenericContract
 
   ethereumTokenContract(
-    hash: EthereumAddressString!
+    address: EthereumAddressString!
     network: ETHEREUM_NETWORK
     interface: EthereumContractInterfaceInput
   ): EthereumTokenContract
+
+  ethereumIdentityContract(
+    address: EthereumAddressString!
+    network: ETHEREUM_NETWORK
+    interface: EthereumContractInterfaceInput
+  ): EthereumIdentityContract
 }
 
 type Mutation {
@@ -72,7 +78,9 @@ type Ack {
 
 type EthereumAddress {
   network: ETHEREUM_NETWORK!
-  hash: EthereumAddressString!
+  display: String!
+  hex: HexValue!
+
   balance: EthereumValue!
 
   transactionCount: Int!
