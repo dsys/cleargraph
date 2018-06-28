@@ -62,12 +62,6 @@ export const HexValue = createHexValueGraphQLScalarType({
   name: "HexValue"
 });
 
-export const EthereumAddressHexValue = createHexValueGraphQLScalarType({
-  byteLength: 20,
-  description: "An Ethereum address encoded as a hexadecimal string (20 bytes)",
-  name: "EthereumAddressHexValue"
-});
-
 export const EthereumTransactionHashHexValue = createHexValueGraphQLScalarType({
   byteLength: 32,
   description:

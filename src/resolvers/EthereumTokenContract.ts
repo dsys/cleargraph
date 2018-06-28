@@ -3,8 +3,11 @@ import { Context } from "../context";
 import { callMethodSafe } from "../web3/contracts";
 
 export const EthereumTokenContract = {
-  address(parent) {
-    return { hash: parent._address, network: parent.network };
+  address(parent, args, ctx: Context) {
+    return ctx.loaders.web3.address.load({
+      hash: parent._address,
+      network: parent.network
+    });
   },
   method(parent, args: { signature: string }) {
     if (!(args.signature in parent.methods)) {
@@ -25,7 +28,7 @@ export const EthereumTokenContract = {
   totalSupply(parent) {
     return callMethodSafe(parent, "totalSupply");
   },
-  async owner(parent, args: { tokenId: string }) {
+  async owner(parent, args: { tokenId: string }, ctx: Context) {
     const ownerAddress = await callMethodSafe(parent, "ownerOf", [
       args.tokenId
     ]);
@@ -34,7 +37,10 @@ export const EthereumTokenContract = {
       return null;
     }
 
-    return { hash: ownerAddress, network: parent.network };
+    return ctx.loaders.web3.address.load({
+      hash: ownerAddress,
+      network: parent.network
+    });
   },
   async balance(parent, args: { owner: string }) {
     const rawBalance = await callMethodSafe(parent, "balanceOf", [args.owner]);

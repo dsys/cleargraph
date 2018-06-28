@@ -3,7 +3,7 @@
 scalar JSON
 scalar BigNumber
 scalar HexValue
-scalar EthereumAddressHexValue
+scalar EthereumAddressString
 scalar EthereumBlockHashHexValue
 scalar EthereumTransactionHashHexValue
 
@@ -39,18 +39,18 @@ type Query {
   ): EthereumTransaction
 
   ethereumAddress(
-    hash: EthereumAddressHexValue!
+    hash: EthereumAddressString!
     network: ETHEREUM_NETWORK
   ): EthereumAddress
 
   ethereumContract(
-    hash: EthereumAddressHexValue!
+    hash: EthereumAddressString!
     network: ETHEREUM_NETWORK
     interface: EthereumContractInterfaceInput!
   ): EthereumGenericContract
 
   ethereumTokenContract(
-    hash: EthereumAddressHexValue!
+    hash: EthereumAddressString!
     network: ETHEREUM_NETWORK
     interface: EthereumContractInterfaceInput
   ): EthereumTokenContract
@@ -72,7 +72,7 @@ type Ack {
 
 type EthereumAddress {
   network: ETHEREUM_NETWORK!
-  hash: EthereumAddressHexValue!
+  hash: EthereumAddressString!
   balance: EthereumValue!
 
   transactionCount: Int!
@@ -165,12 +165,12 @@ type EthereumTokenContract implements EthereumContract {
   symbol: String
   decimals: Int
   totalSupply: BigNumber
-  balance(owner: EthereumAddressHexValue!): BigNumber
-  rawBalance(owner: EthereumAddressHexValue!): BigNumber
+  balance(owner: EthereumAddressString!): BigNumber
+  rawBalance(owner: EthereumAddressString!): BigNumber
   owner(tokenId: BigNumber!): EthereumAddress
   allowance(
-    owner: EthereumAddressHexValue!
-    spender: EthereumAddressHexValue!
+    owner: EthereumAddressString!
+    spender: EthereumAddressString!
   ): BigNumber
 }
 
