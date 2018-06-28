@@ -37,7 +37,7 @@ export function generateRandomVerificationCode(
 }
 
 export function generateTextMessage(verificationCode: string): string {
-  return `Your Multi verification code is: ${verificationCode}`;
+  return `Your Cleargraph verification code is: ${verificationCode}`;
 }
 
 export async function startPhoneNumberVerification(

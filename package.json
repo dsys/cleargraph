@@ -1,13 +1,13 @@
 {
-  "name": "@dsys/multi-api",
+  "name": "@dsys/cleargraph",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "author": "Alex Kern <alex@cleargraph.com>",
   "scripts": {
     "start": "nodemon -e ts,graphql -x ts-node -r dotenv/config src/index.ts",
     "debug": "nodemon -e ts,graphql -x ts-node -r dotenv/config --inspect src/index.ts",
-    "dev": "npm-run-all --parallel dev:redis dev:multi-api dev:prisma:run dev:prisma:watch dev:playground",
-    "dev:multi-api": "./scripts/wait-for.sh localhost:6379 -- ./scripts/wait-for.sh localhost:4466 -- yarn run start",
+    "dev": "npm-run-all --parallel dev:redis dev:cleargraph dev:prisma:run dev:prisma:watch dev:playground",
+    "dev:cleargraph": "./scripts/wait-for.sh localhost:6379 -- ./scripts/wait-for.sh localhost:4466 -- yarn run start",
     "dev:redis": "docker-compose up redis",
     "dev:prisma:run": "docker-compose up prisma",
     "dev:prisma:watch": "./scripts/wait-for.sh localhost:4466 -- echo \"Waiting for Prisma to finish starting\" && sleep 10 && nodemon --watch database -e graphql,yml -x yarn run dev:prisma:deploy",
@@ -19,8 +19,8 @@
     "lint:graphql": "prettier --write 'database/**/*.graphql' 'src/schema.graphql'",
     "check": "tsc --noEmit && tslint --exclude src/generated/prisma.ts 'src/**/*.ts' && prettier -l 'database/**/*.graphql' 'src/schema.graphql'",
     "precommit": "yarn run check",
-    "docker:build": "docker build -t dsys/multi-api:latest .",
-    "docker:run": "docker run -it dsys/multi-api:latest"
+    "docker:build": "docker build -t dsys/cleargraph:latest .",
+    "docker:run": "docker run -it dsys/cleargraph:latest"
   },
   "dependencies": {
     "bignumber.js": "^7.2.1",
