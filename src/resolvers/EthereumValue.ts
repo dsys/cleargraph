@@ -5,18 +5,19 @@ const fromWei = web3.MAINNET.utils.fromWei;
 
 // don't repeat yourse... ah screw it.
 export const EthereumValue = {
-  display(v) {
+  display(v, args: { precision: number }) {
+    const precision = args.precision || 3;
     const n = new BigNumber(v);
     if (n.isGreaterThan("50000000000000000")) {
-      return n.dividedBy("1000000000000000000").toFixed(3) + " ETH";
+      return n.dividedBy("1000000000000000000").toFixed(precision) + " ETH";
     } else if (n.isGreaterThan("50000000000000")) {
-      return n.dividedBy("1000000000000000").toFixed(3) + " mETH";
+      return n.dividedBy("1000000000000000").toFixed(precision) + " mETH";
     } else if (n.isGreaterThan("50000000000")) {
-      return n.dividedBy("1000000000000").toFixed(3) + " nETH";
+      return n.dividedBy("1000000000000").toFixed(precision) + " nETH";
     } else if (n.isGreaterThan("50000000")) {
-      return n.dividedBy("1000000000").toFixed(3) + " Gwei";
+      return n.dividedBy("1000000000").toFixed(precision) + " Gwei";
     } else if (n.isGreaterThan("50000")) {
-      return n.dividedBy("1000000").toFixed(3) + " Kwei";
+      return n.dividedBy("1000000").toFixed(precision) + " Kwei";
     } else {
       return n.toString() + " wei";
     }

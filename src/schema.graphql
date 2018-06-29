@@ -227,7 +227,7 @@ type EthereumIdentityContractKey {
 }
 
 type EthereumValue {
-  display: String!
+  display(precision: Int): String!
 
   Gwei: BigNumber!
   Kwei: BigNumber!
