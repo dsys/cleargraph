@@ -25,8 +25,9 @@ export const Query = {
     return ctx.loaders.web3.address.load({ address, network });
   },
 
-  ethereumBlock(parent, { hash, network = "MAINNET" }, ctx: Context) {
-    return ctx.loaders.web3.block.load({ hash, network });
+  // tslint:disable-next-line:variable-name
+  ethereumBlock(parent, { hash, number, network = "MAINNET" }, ctx: Context) {
+    return ctx.loaders.web3.block.load({ hash, number, network });
   },
 
   ethereumTransaction(parent, { hash, network = "MAINNET" }, ctx: Context) {
