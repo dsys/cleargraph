@@ -89,17 +89,30 @@ type Query {
 }
 
 type Mutation {
-  startPhoneNumberVerification(input: StartPhoneNumberVerificationInput!): Ack
-  updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
-  deletePhoneNumber(input: DeletePhoneNumberInput!): Ack
-
   sendRawEthereumTransaction(
     input: SendRawEthereumTransactionInput!
   ): SendRawEthereumTransactionPayload
+
+  startPhoneNumberVerification(
+    input: StartPhoneNumberVerificationInput!
+  ): StartPhoneNumberVerificationPayload
+  checkPhoneNumberVerification(
+    input: CheckPhoneNumberVerificationInput!
+  ): CheckPhoneNumberVerificationPayload
+  updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
+  deletePhoneNumber(input: DeletePhoneNumberInput!): Ack
+
+  checkUsernameAvailable(
+    input: CheckUsernameAvailableInput!
+  ): CheckUsernameAvailablePayload
+  createIdentityContract(
+    input: CreateIdentityContractInput!
+  ): CreateIdentityContractPayload
 }
 
 type Ack {
   ok: Boolean
+  message: String
 }
 
 type EthereumAddress {
@@ -268,6 +281,50 @@ type PhoneNumber {
 
 input StartPhoneNumberVerificationInput {
   phoneNumber: String!
+}
+
+type StartPhoneNumberVerificationPayload implements Ack {
+  ok: Boolean
+  message: String
+  phoneNumber: PhoneNumber
+}
+
+input CheckPhoneNumberVerificationInput {
+  phoneNumber: String!
+  verificationCode: String!
+}
+
+type CheckPhoneNumberVerificationPayload implements Ack {
+  ok: Boolean
+  message: String
+  phoneNumberToken: String
+  expires: DateTime
+  phoneNumber: PhoneNumber
+}
+
+input CheckUsernameAvailableInput {
+  username: String!
+}
+
+type CheckUsernameAvailablePayload implements Ack {
+  ok: Boolean
+  message: String
+}
+
+input CreateIdentityContractInput {
+  username: String!
+  phoneNumberToken: String!
+  managerAddresses: [EthereumAddressString!]!
+  network: ETHEREUM_NETWORK!
+
+  recoveryPassphraseHash: String
+  socialRecoveryAddresses: [EthereumAddressString!]
+}
+
+type CreateIdentityContractPayload implements Ack {
+  ok: Boolean
+  message: String
+  identityContract: EthereumIdentityContract
 }
 
 input UpdatePhoneNumberInput {
