@@ -289,7 +289,6 @@ input StartPhoneNumberVerificationInput {
 type StartPhoneNumberVerificationPayload implements Ack {
   ok: Boolean
   message: String
-  phoneNumber: PhoneNumber
 }
 
 input CheckPhoneNumberVerificationInput {
@@ -300,9 +299,9 @@ input CheckPhoneNumberVerificationInput {
 type CheckPhoneNumberVerificationPayload implements Ack {
   ok: Boolean
   message: String
-  phoneNumberToken: String
-  expires: DateTime
   phoneNumber: PhoneNumber
+  phoneNumberToken: String
+  phoneNumberTokenExpires: DateTime
 }
 
 input CheckUsernameAvailableInput {
@@ -320,7 +319,7 @@ input CreateIdentityContractInput {
   managerAddresses: [EthereumAddressString!]!
   network: ETHEREUM_NETWORK!
 
-  recoveryPassphraseHash: String
+  passphraseRecoveryHash: String
   socialRecoveryAddresses: [EthereumAddressString!]
 }
 

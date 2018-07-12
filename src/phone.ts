@@ -108,3 +108,26 @@ export function generatePhoneNumberHash(phoneNumber: string): string {
   hash.update(normalizePhoneNumber(phoneNumber) + GLOBAL_PHONE_NUMBER_SALT);
   return hash.digest("hex").substring(0, TRUNCATE_BYTES);
 }
+
+export async function generatePhoneNumberToken(
+  phoneNumber: string
+): Promise<{
+  hashedPhoneNumber: string;
+  phoneNumberToken: string;
+  phoneNumberTokenExpires: Date;
+}> {
+  // TODO: Generate JWT for phone number
+  const hashedPhoneNumber = generatePhoneNumberHash(phoneNumber);
+  return {
+    hashedPhoneNumber,
+    phoneNumberToken: hashedPhoneNumber,
+    phoneNumberTokenExpires: new Date()
+  };
+}
+
+export async function validatePhoneNumberToken(
+  phoneNumberToken: string
+): Promise<string> {
+  // TODO: Implement JWT phone number token validation
+  return phoneNumberToken;
+}
