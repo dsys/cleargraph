@@ -7,6 +7,11 @@ scalar EthereumAddressString
 scalar EthereumBlockHashHexValue
 scalar EthereumTransactionHashHexValue
 
+interface Ack {
+  ok: Boolean
+  message: String
+}
+
 enum ETHEREUM_NETWORK {
   MAINNET
   ROPSTEN
@@ -96,23 +101,21 @@ type Mutation {
   startPhoneNumberVerification(
     input: StartPhoneNumberVerificationInput!
   ): StartPhoneNumberVerificationPayload
+
   checkPhoneNumberVerification(
     input: CheckPhoneNumberVerificationInput!
   ): CheckPhoneNumberVerificationPayload
+
   updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
-  deletePhoneNumber(input: DeletePhoneNumberInput!): Ack
+  deletePhoneNumber(input: DeletePhoneNumberInput!): DeletePhoneNumberPayload
 
   checkUsernameAvailable(
     input: CheckUsernameAvailableInput!
   ): CheckUsernameAvailablePayload
+
   createIdentityContract(
     input: CreateIdentityContractInput!
   ): CreateIdentityContractPayload
-}
-
-type Ack {
-  ok: Boolean
-  message: String
 }
 
 type EthereumAddress {
@@ -328,18 +331,23 @@ type CreateIdentityContractPayload implements Ack {
 }
 
 input UpdatePhoneNumberInput {
-  phoneNumber: String!
-  verificationCode: String!
-  address: String!
+  phoneNumberToken: String!
+  address: EthereumAddressString!
 }
 
-type UpdatePhoneNumberPayload {
+type UpdatePhoneNumberPayload implements Ack {
+  ok: Boolean
+  message: String
   phoneNumber: PhoneNumber
 }
 
 input DeletePhoneNumberInput {
-  phoneNumber: String!
-  verificationCode: String!
+  phoneNumberToken: String!
+}
+
+type DeletePhoneNumberPayload implements Ack {
+  ok: Boolean
+  message: String
 }
 
 input SendRawEthereumTransactionInput {
@@ -347,7 +355,9 @@ input SendRawEthereumTransactionInput {
   network: ETHEREUM_NETWORK
 }
 
-type SendRawEthereumTransactionPayload {
+type SendRawEthereumTransactionPayload implements Ack {
+  ok: Boolean
+  message: String
   ethereumTransaction: EthereumTransaction
 }
 
