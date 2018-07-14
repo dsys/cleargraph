@@ -58,11 +58,11 @@ export const Mutation = {
           },
           // a bit of a hack since I'm not sure what to do with info here
           `{
-          hashedPhoneNumber
-          address
-          createdAt
-          updatedAt
-        }`
+            hashedPhoneNumber
+            address
+            createdAt
+            updatedAt
+          }`
         ),
         phoneNumberToken,
         phoneNumberTokenExpires

@@ -3,9 +3,11 @@ import {
   format as formatPhoneNumber,
   parse as parsePhoneNumber
 } from "libphonenumber-js";
+import * as moment from "moment";
 import * as fetch from "node-fetch";
 import * as qs from "qs";
 import { DEFAULT_REDIS_CLIENT } from "./redis";
+import { generateToken, verifyToken } from "./tokens";
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_API_KEY = process.env.TWILIO_API_KEY;
@@ -116,18 +118,32 @@ export async function generatePhoneNumberToken(
   phoneNumberToken: string;
   phoneNumberTokenExpires: Date;
 }> {
-  // TODO: Generate JWT for phone number
   const hashedPhoneNumber = generatePhoneNumberHash(phoneNumber);
+
+  const phoneNumberTokenExpires = moment()
+    .add(1, "day")
+    .toDate();
+
+  const phoneNumberToken = await generateToken(
+    { hashedPhoneNumber },
+    phoneNumberTokenExpires
+  );
+
   return {
     hashedPhoneNumber,
-    phoneNumberToken: hashedPhoneNumber,
-    phoneNumberTokenExpires: new Date()
+    phoneNumberToken,
+    phoneNumberTokenExpires
   };
 }
 
 export async function validatePhoneNumberToken(
   phoneNumberToken: string
 ): Promise<string> {
-  // TODO: Implement JWT phone number token validation
-  return phoneNumberToken;
+  const { hashedPhoneNumber } = await verifyToken(phoneNumberToken);
+
+  if (!hashedPhoneNumber) {
+    throw new Error("invalid phone number token");
+  }
+
+  return hashedPhoneNumber;
 }
