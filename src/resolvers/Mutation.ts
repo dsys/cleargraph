@@ -163,5 +163,32 @@ export const Mutation = {
     } catch (err) {
       return { message: err.message, ok: false };
     }
+  },
+  async createIdentityContract(parent, { input }, ctx) {
+    try {
+      const username = await normalizeUsername(input.username);
+      const address = await ctx.loaders.web3.address.load({
+        address: username,
+        network: input.network || "MAINNET"
+      });
+
+      if (address) {
+        return { message: "username is taken", ok: false };
+      }
+
+      const hashedPhoneNumber = await validatePhoneNumberToken(
+        input.phoneNumberToken
+      );
+
+      if (input.managerAddresses.length === 0) {
+        return { message: "need at least one manager address", ok: false };
+      }
+
+      // TODO: Create the identity contract and return its address.
+
+      return { ok: true };
+    } catch (err) {
+      return { message: err.message, ok: false };
+    }
   }
 };

@@ -306,6 +306,7 @@ type CheckPhoneNumberVerificationPayload implements Ack {
 
 input CheckUsernameAvailableInput {
   username: String!
+  network: ETHEREUM_NETWORK
 }
 
 type CheckUsernameAvailablePayload implements Ack {
@@ -317,8 +318,7 @@ input CreateIdentityContractInput {
   username: String!
   phoneNumberToken: String!
   managerAddresses: [EthereumAddressString!]!
-  network: ETHEREUM_NETWORK!
-
+  network: ETHEREUM_NETWORK
   passphraseRecoveryHash: String
   socialRecoveryAddresses: [EthereumAddressString!]
 }
