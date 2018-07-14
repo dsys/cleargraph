@@ -3,9 +3,11 @@ import {
   format as formatPhoneNumber,
   parse as parsePhoneNumber
 } from "libphonenumber-js";
+import * as moment from "moment";
 import * as fetch from "node-fetch";
 import * as qs from "qs";
 import { DEFAULT_REDIS_CLIENT } from "./redis";
+import { generateToken, verifyToken } from "./tokens";
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_API_KEY = process.env.TWILIO_API_KEY;
@@ -107,4 +109,41 @@ export function generatePhoneNumberHash(phoneNumber: string): string {
   const hash = crypto.createHash("sha256");
   hash.update(normalizePhoneNumber(phoneNumber) + GLOBAL_PHONE_NUMBER_SALT);
   return hash.digest("hex").substring(0, TRUNCATE_BYTES);
+}
+
+export async function generatePhoneNumberToken(
+  phoneNumber: string
+): Promise<{
+  hashedPhoneNumber: string;
+  phoneNumberToken: string;
+  phoneNumberTokenExpires: Date;
+}> {
+  const hashedPhoneNumber = generatePhoneNumberHash(phoneNumber);
+
+  const phoneNumberTokenExpires = moment()
+    .add(1, "day")
+    .toDate();
+
+  const phoneNumberToken = await generateToken(
+    { hashedPhoneNumber },
+    phoneNumberTokenExpires
+  );
+
+  return {
+    hashedPhoneNumber,
+    phoneNumberToken,
+    phoneNumberTokenExpires
+  };
+}
+
+export async function validatePhoneNumberToken(
+  phoneNumberToken: string
+): Promise<string> {
+  const { hashedPhoneNumber } = await verifyToken(phoneNumberToken);
+
+  if (!hashedPhoneNumber) {
+    throw new Error("invalid phone number token");
+  }
+
+  return hashedPhoneNumber;
 }

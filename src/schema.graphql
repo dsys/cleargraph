@@ -7,6 +7,11 @@ scalar EthereumAddressString
 scalar EthereumBlockHashHexValue
 scalar EthereumTransactionHashHexValue
 
+interface Ack {
+  ok: Boolean
+  message: String
+}
+
 enum ETHEREUM_NETWORK {
   MAINNET
   ROPSTEN
@@ -89,17 +94,28 @@ type Query {
 }
 
 type Mutation {
-  startPhoneNumberVerification(input: StartPhoneNumberVerificationInput!): Ack
-  updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
-  deletePhoneNumber(input: DeletePhoneNumberInput!): Ack
-
   sendRawEthereumTransaction(
     input: SendRawEthereumTransactionInput!
   ): SendRawEthereumTransactionPayload
-}
 
-type Ack {
-  ok: Boolean
+  startPhoneNumberVerification(
+    input: StartPhoneNumberVerificationInput!
+  ): StartPhoneNumberVerificationPayload
+
+  checkPhoneNumberVerification(
+    input: CheckPhoneNumberVerificationInput!
+  ): CheckPhoneNumberVerificationPayload
+
+  updatePhoneNumber(input: UpdatePhoneNumberInput!): UpdatePhoneNumberPayload
+  deletePhoneNumber(input: DeletePhoneNumberInput!): DeletePhoneNumberPayload
+
+  checkUsernameAvailable(
+    input: CheckUsernameAvailableInput!
+  ): CheckUsernameAvailablePayload
+
+  createIdentityContract(
+    input: CreateIdentityContractInput!
+  ): CreateIdentityContractPayload
 }
 
 type EthereumAddress {
@@ -270,19 +286,67 @@ input StartPhoneNumberVerificationInput {
   phoneNumber: String!
 }
 
-input UpdatePhoneNumberInput {
-  phoneNumber: String!
-  verificationCode: String!
-  address: String!
+type StartPhoneNumberVerificationPayload implements Ack {
+  ok: Boolean
+  message: String
 }
 
-type UpdatePhoneNumberPayload {
+input CheckPhoneNumberVerificationInput {
+  phoneNumber: String!
+  verificationCode: String!
+}
+
+type CheckPhoneNumberVerificationPayload implements Ack {
+  ok: Boolean
+  message: String
+  phoneNumber: PhoneNumber
+  phoneNumberToken: String
+  phoneNumberTokenExpires: DateTime
+}
+
+input CheckUsernameAvailableInput {
+  username: String!
+  network: ETHEREUM_NETWORK
+}
+
+type CheckUsernameAvailablePayload implements Ack {
+  ok: Boolean
+  message: String
+}
+
+input CreateIdentityContractInput {
+  username: String!
+  phoneNumberToken: String!
+  managerAddresses: [EthereumAddressString!]!
+  network: ETHEREUM_NETWORK
+  passphraseRecoveryHash: String
+  socialRecoveryAddresses: [EthereumAddressString!]
+}
+
+type CreateIdentityContractPayload implements Ack {
+  ok: Boolean
+  message: String
+  identityContract: EthereumIdentityContract
+}
+
+input UpdatePhoneNumberInput {
+  phoneNumberToken: String!
+  address: EthereumAddressString!
+}
+
+type UpdatePhoneNumberPayload implements Ack {
+  ok: Boolean
+  message: String
   phoneNumber: PhoneNumber
 }
 
 input DeletePhoneNumberInput {
-  phoneNumber: String!
-  verificationCode: String!
+  phoneNumberToken: String!
+}
+
+type DeletePhoneNumberPayload implements Ack {
+  ok: Boolean
+  message: String
 }
 
 input SendRawEthereumTransactionInput {
@@ -290,7 +354,9 @@ input SendRawEthereumTransactionInput {
   network: ETHEREUM_NETWORK
 }
 
-type SendRawEthereumTransactionPayload {
+type SendRawEthereumTransactionPayload implements Ack {
+  ok: Boolean
+  message: String
   ethereumTransaction: EthereumTransaction
 }
 
