@@ -6,6 +6,7 @@ import {
   startPhoneNumberVerification,
   validatePhoneNumberToken
 } from "../phone";
+import { normalizeUsername } from "../usernames";
 import { web3 } from "../web3/client";
 
 export const Mutation = {
@@ -145,5 +146,22 @@ export const Mutation = {
         network: input.network
       })
     };
+  },
+  async checkUsernameAvailable(parent, { input }, ctx) {
+    try {
+      const username = await normalizeUsername(input.username);
+      const address = await ctx.loaders.web3.address.load({
+        address: username,
+        network: input.network || "MAINNET"
+      });
+
+      if (address) {
+        return { message: "username is taken", ok: false };
+      }
+
+      return { ok: true };
+    } catch (err) {
+      return { message: err.message, ok: false };
+    }
   }
 };
