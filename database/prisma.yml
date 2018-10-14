@@ -21,4 +21,4 @@ seed:
 # If specified, the `secret` must be used to generate a JWT which is attached
 # to the `Authorization` header of HTTP requests made against the Prisma API.
 # Info: https://www.prisma.io/docs/reference/prisma-api/concepts-utee3eiquo#authentication
-# secret: ${env:PRISMA_SECRET}
+secret: ${env:PRISMA_SECRET}

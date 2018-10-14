@@ -6,7 +6,7 @@
 
 ## Usage
 
-A hosted instance is available at [api.cleargraph.com](https://api.cleargraph.com).
+A hosted instance is available at [cleargraph.kern.io](https://cleargraph.kern.io).
 
 ```sh
 git clone git@github.com:dsys/cleargraph.git
