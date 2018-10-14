@@ -6,8 +6,6 @@
 
 ## Usage
 
-A hosted instance is available at [cleargraph.kern.io](https://cleargraph.kern.io).
-
 ```sh
 git clone git@github.com:dsys/cleargraph.git
 cd cleargraph
